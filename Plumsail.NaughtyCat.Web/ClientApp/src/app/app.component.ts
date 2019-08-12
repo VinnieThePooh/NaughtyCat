@@ -1,4 +1,6 @@
 import { Component } from "@angular/core";
+import { setTheme } from "ngx-bootstrap/utils";
+// import { MatGridList } from "@angular/material/grid-list";
 
 @Component({
   selector: "ncat-root",
@@ -7,4 +9,8 @@ import { Component } from "@angular/core";
 })
 export class AppComponent {
   title = "ClientApp";
+
+  constructor() {
+    setTheme("bs4");
+  }
 }

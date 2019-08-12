@@ -1,0 +1,20 @@
+<h3 class="text-center">Enter your credentials here</h3>
+<div class="login-form">
+  <mat-form-field class="full-width">
+    <mat-label>Login</mat-label>
+    <input matInput placeholder="Login" />
+    <mat-hint>Hint</mat-hint>
+  </mat-form-field>
+  <mat-form-field class="full-width">
+    <mat-label>Password</mat-label>
+    <input matInput placeholder="Password" />
+    <mat-hint>Hint</mat-hint>
+  </mat-form-field>
+  <div class="buttons">
+    <button mat-button>Login</button>
+    <button class="regButton" routerLink="/register" mat-button>
+      <span>Not registered?</span> - Register!
+    </button>
+  </div>
+  <!-- <div ng-messages="loginForm.email.$error" role="alert"></div> -->
+</div>

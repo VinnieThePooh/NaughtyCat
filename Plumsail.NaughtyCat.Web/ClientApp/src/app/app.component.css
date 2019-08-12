@@ -1,0 +1,22 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.wrapper {
+  display: grid;
+  grid-template-rows: 100px auto 100px;
+  height: 100%;
+}
+
+.outlet {
+  grid-row: 2 / 2;
+}
+
+.top {
+  grid-row: 1 / 1;
+}
+
+.bottom {
+  grid-row: 3 / 3;
+}
