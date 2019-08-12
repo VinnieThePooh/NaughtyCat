@@ -9,7 +9,8 @@ namespace Plumsail.NaughtyCat.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AccountController : ControllerBase
+    public class RabbitsController : ControllerBase
     {
+
     }
 }
