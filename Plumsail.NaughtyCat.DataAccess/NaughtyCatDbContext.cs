@@ -19,7 +19,7 @@ namespace Plumsail.NaughtyCat.DataAccess
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
+            
             // todo: get workaround about table names eq. ToTable method
             builder.ApplyConfiguration(new AppRoleConfiguration());
             builder.ApplyConfiguration(new AppUserConfiguration());

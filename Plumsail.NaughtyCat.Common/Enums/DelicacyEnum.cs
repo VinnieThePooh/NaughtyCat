@@ -5,7 +5,7 @@ namespace Plumsail.NaughtyCat.Common.Enums
     public enum DelicacyEnum
     {
         [Description(nameof(LotOfBones))]
-        LotOfBones,
+        LotOfBones = 1,
         [Description(nameof(GonnaStruggle))]
         GonnaStruggle,
         [Description(nameof(PrettyGood))]

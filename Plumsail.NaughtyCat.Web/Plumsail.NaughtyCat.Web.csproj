@@ -31,6 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Plumsail.NaughtyCat.Core\Plumsail.NaughtyCat.Core.csproj" />
     <ProjectReference Include="..\Plumsail.NaughtyCat.DataAccess\Plumsail.NaughtyCat.DataAccess.csproj" />
     <ProjectReference Include="..\Plumsail.NaughtyCat.Domain\Plumsail.NaughtyCat.Domain.csproj" />
   </ItemGroup>

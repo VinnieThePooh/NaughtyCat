@@ -6,7 +6,8 @@ using System.Text;
 namespace Plumsail.NaughtyCat.Common.Helpers
 {
     public static class EnumsHelper
-    {public static string GetEnumDescription<TEnum>(TEnum enumValue)
+    {
+        public static string GetEnumDescription<TEnum>(this TEnum enumValue)
             where TEnum : struct
         {
             var t = typeof(TEnum);
@@ -17,7 +18,8 @@ namespace Plumsail.NaughtyCat.Common.Helpers
 
             var fi = t.GetField(enumValue.ToString());
 
-            if (fi.GetCustomAttributes(typeof(DescriptionAttribute), false) is DescriptionAttribute[] attributes && attributes.Length > 0)
+            if (fi.GetCustomAttributes(typeof(DescriptionAttribute), false) is DescriptionAttribute[] attributes &&
+                attributes.Length > 0)
             {
                 return attributes[0].Description;
             }

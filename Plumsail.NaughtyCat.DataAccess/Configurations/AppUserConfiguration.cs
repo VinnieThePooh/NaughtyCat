@@ -11,7 +11,7 @@ namespace Plumsail.NaughtyCat.DataAccess.Configurations
     {
         public void Configure(EntityTypeBuilder<ApplicationUser> builder)
         {
-            throw new NotImplementedException();
+            
         }
     }
 }

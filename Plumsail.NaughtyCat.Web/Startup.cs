@@ -4,9 +4,11 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Plumsail.NaughtyCat.Core;
 using Plumsail.NaughtyCat.DataAccess;
 
 namespace Plumsail.NaughtyCat.Web
@@ -23,6 +25,7 @@ namespace Plumsail.NaughtyCat.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<NaughtyCatDbContext>(options => { options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")); });
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
@@ -42,6 +45,7 @@ namespace Plumsail.NaughtyCat.Web
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddCors(opt =>
             {
+                // todo: can be simplified probably
                 opt.AddPolicy("EnableCORS",
                     builder =>
                     {
@@ -52,7 +56,20 @@ namespace Plumsail.NaughtyCat.Web
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/dist"; });
+
             new DataAccessRegistrator().RegisterServices(services);
+            new AppServicesRegistrator().RegisterServices(services);
+
+
+            var scopeFactory = services.BuildServiceProvider().GetRequiredService<IServiceScopeFactory>();
+            using (var scope = scopeFactory.CreateScope())
+            {
+                var provider = scope.ServiceProvider;
+                using (var dbContext = provider.GetRequiredService<NaughtyCatDbContext>())
+                {
+                    dbContext.Database.EnsureCreated();
+                }
+            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -89,10 +106,10 @@ namespace Plumsail.NaughtyCat.Web
 
                 spa.Options.SourcePath = "ClientApp";
 
-                if (env.IsDevelopment())
-                {
-                    spa.UseAngularCliServer(npmScript: "start");
-                }
+                //if (env.IsDevelopment())
+                //{
+                //    spa.UseAngularCliServer(npmScript: "start");
+                //}
             });
         }
     }

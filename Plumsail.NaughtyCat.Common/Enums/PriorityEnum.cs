@@ -5,7 +5,7 @@ namespace Plumsail.NaughtyCat.Common.Enums
     public enum PriorityEnum
     {
         [Description(nameof(PriorityEnum.Worst))]
-        Worst,
+        Worst = 1,
         [Description(nameof(PriorityEnum.RatherNot))]
         RatherNot,
         [Description(nameof(PriorityEnum.Average))]

@@ -10,7 +10,7 @@ namespace Plumsail.NaughtyCat.DataAccess.Configurations
     {
         public void Configure(EntityTypeBuilder<ApplicationRole> builder)
         {
-            throw new NotImplementedException();
+            
         }
     }
 }
