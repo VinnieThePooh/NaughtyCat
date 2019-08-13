@@ -11,8 +11,11 @@ import { MatInputModule } from "@angular/material";
 import { RabbitListviewComponent } from "./components/rabbit/rabbit-listview/rabbit-listview.component";
 import { HomeComponent } from "./components/home/home.component";
 import { LoginComponent } from "./components/login/login.component";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, NgControl, ReactiveFormsModule } from "@angular/forms";
 import { BottomComponent } from "./components/bottom/bottom.component";
+import { AccountService } from "./services/account.service";
+import { HttpClientModule } from "@angular/common/http";
+import { RegisterComponent } from "./components/register/register.component";
 
 @NgModule({
   declarations: [
@@ -21,10 +24,13 @@ import { BottomComponent } from "./components/bottom/bottom.component";
     RabbitListviewComponent,
     HomeComponent,
     LoginComponent,
-    BottomComponent
+    BottomComponent,
+    RegisterComponent
   ],
   imports: [
+    HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
@@ -33,7 +39,7 @@ import { BottomComponent } from "./components/bottom/bottom.component";
     MatFormFieldModule,
     MatInputModule
   ],
-  providers: [],
+  providers: [AccountService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

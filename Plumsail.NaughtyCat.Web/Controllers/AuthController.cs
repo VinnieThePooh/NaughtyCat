@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using Plumsail.NaughtyCat.Web.ViewModels;
+using Plumsail.NaughtyCat.Web.Dto;
 
 namespace Plumsail.NaughtyCat.Web.Controllers
 {
@@ -18,15 +18,20 @@ namespace Plumsail.NaughtyCat.Web.Controllers
     public class AuthController : ControllerBase
     {
         [HttpPost, Route("login")]
-        public IActionResult Login([FromHeader] LoginViewModel viewModel)
+        public IActionResult Login(LoginDto viewModel)
         {
             if (viewModel == null)
             {
                 return BadRequest("Invalid client request");
             }
 
-            // get somewhere
-            object someUser = null;
+            var loginResult = new LoginResultDto()
+            {
+                Succeeded = false
+            };
+            
+
+            // todo: add repos or try asp.identity
 
             if (viewModel.Email == "johndoe@gmail.com" && viewModel.Password == "doepass")
             {
@@ -39,12 +44,12 @@ namespace Plumsail.NaughtyCat.Web.Controllers
                     claims: new List<Claim>(), 
                     expires: DateTime.Now.AddMinutes(5),
                     signingCredentials: signingCredentials);
-
-                var tokenString = new JwtSecurityTokenHandler().WriteToken(jwt);
-                return Ok(new {Token = tokenString});
+                
+                loginResult.Succeeded = true;
+                loginResult.Token = new JwtSecurityTokenHandler().WriteToken(jwt);
             }
 
-            return Unauthorized();
+            return Ok(loginResult);
         }
 
         [HttpGet, Route("Test")]
