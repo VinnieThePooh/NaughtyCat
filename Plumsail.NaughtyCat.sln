@@ -5,7 +5,13 @@ VisualStudioVersion = 16.0.29201.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Plumsail.NaughtyCat.Web", "Plumsail.NaughtyCat.Web\Plumsail.NaughtyCat.Web.csproj", "{4DE250C6-1EAA-40A4-91F3-6FD66537EEBA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plumsail.NaughtyCat.Domain", "Plumsail.NaughtyCat.Domain\Plumsail.NaughtyCat.Domain.csproj", "{95845741-3905-45C3-8B5E-A635A104197F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Plumsail.NaughtyCat.Domain", "Plumsail.NaughtyCat.Domain\Plumsail.NaughtyCat.Domain.csproj", "{95845741-3905-45C3-8B5E-A635A104197F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plumsail.NaughtyCat.DataAccess", "Plumsail.NaughtyCat.DataAccess\Plumsail.NaughtyCat.DataAccess.csproj", "{D5475A0B-0BF8-439B-B513-007897E3D163}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plumsail.NaughtyCat.Core", "Plumsail.NaughtyCat.Core\Plumsail.NaughtyCat.Core.csproj", "{62C39D2D-B912-499A-B6DE-8A9C87FA16E6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plumsail.NaughtyCat.Common", "Plumsail.NaughtyCat.Common\Plumsail.NaughtyCat.Common.csproj", "{8B0EA76C-6F83-4DD9-9201-6FD04AC3C3B9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +27,18 @@ Global
 		{95845741-3905-45C3-8B5E-A635A104197F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{95845741-3905-45C3-8B5E-A635A104197F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{95845741-3905-45C3-8B5E-A635A104197F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5475A0B-0BF8-439B-B513-007897E3D163}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5475A0B-0BF8-439B-B513-007897E3D163}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5475A0B-0BF8-439B-B513-007897E3D163}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5475A0B-0BF8-439B-B513-007897E3D163}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62C39D2D-B912-499A-B6DE-8A9C87FA16E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62C39D2D-B912-499A-B6DE-8A9C87FA16E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62C39D2D-B912-499A-B6DE-8A9C87FA16E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62C39D2D-B912-499A-B6DE-8A9C87FA16E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B0EA76C-6F83-4DD9-9201-6FD04AC3C3B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B0EA76C-6F83-4DD9-9201-6FD04AC3C3B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B0EA76C-6F83-4DD9-9201-6FD04AC3C3B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B0EA76C-6F83-4DD9-9201-6FD04AC3C3B9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

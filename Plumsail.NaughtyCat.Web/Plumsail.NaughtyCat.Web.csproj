@@ -20,6 +20,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
+    <PackageReference Include="OpenIddict" Version="2.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -30,6 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Plumsail.NaughtyCat.DataAccess\Plumsail.NaughtyCat.DataAccess.csproj" />
     <ProjectReference Include="..\Plumsail.NaughtyCat.Domain\Plumsail.NaughtyCat.Domain.csproj" />
   </ItemGroup>
 

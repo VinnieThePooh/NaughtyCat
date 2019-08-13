@@ -51,11 +51,5 @@ namespace Plumsail.NaughtyCat.Web.Controllers
 
             return Ok(loginResult);
         }
-
-        [HttpGet, Route("Test")]
-        public IActionResult Test()
-        {
-            return Ok("Hello from Cat!");
-        }
     }
 }
