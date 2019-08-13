@@ -13,6 +13,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plumsail.NaughtyCat.Core", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plumsail.NaughtyCat.Common", "Plumsail.NaughtyCat.Common\Plumsail.NaughtyCat.Common.csproj", "{8B0EA76C-6F83-4DD9-9201-6FD04AC3C3B9}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{70F7A513-8E0B-4D22-BE80-083B1F0C6C4A}"
+	ProjectSection(SolutionItems) = preProject
+		todos.txt = todos.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

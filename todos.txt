@@ -1,0 +1,17 @@
+1. Add openididct authorization server with asp identity 
+2. Add logout functionality
+3. Add ListView view for Rabbits
+     1.Sorting
+	 2.Filtration
+	 3.Pagination
+4.Add new rabbit creation form
+5.Add angular form validation + server side (FluentValidation package or like that)
+   1. Login
+   2. Adding new Rabbit
+   3. And furher forms (Registratin etc)
+
+6. Add new user registration functionality
+7. todos refactoring
+8. Think about bundling. Load optimization, etc
+
+   
