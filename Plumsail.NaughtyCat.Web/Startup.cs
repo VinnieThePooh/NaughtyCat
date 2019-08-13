@@ -31,20 +31,26 @@ namespace Plumsail.NaughtyCat.Web
                         ValidateAudience = true,
                         ValidateLifetime = true,
                         ValidateIssuerSigningKey = true,
-                        ValidIssuer = "https://localhost:65039",
-                        ValidAudience = "https://localhost:65039",
+                        ValidIssuer = "https://localhost:44388",
+                        ValidAudience = "https://localhost:44388",
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("ncatsecretKey@567"))
                     };
                 });
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddCors(opt =>
+            {
+                opt.AddPolicy("EnableCORS",
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials().Build();
+                    });
+            });
+
 
             // In production, the Angular files will be served from this directory
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "ClientApp/dist";
-            });
+            services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/dist"; });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -63,6 +69,7 @@ namespace Plumsail.NaughtyCat.Web
 
             app.UseAuthentication();
             app.UseHttpsRedirection();
+            app.UseCors("EnableCORS");
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 

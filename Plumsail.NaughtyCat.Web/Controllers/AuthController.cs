@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net.Mime;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,7 +18,7 @@ namespace Plumsail.NaughtyCat.Web.Controllers
     public class AuthController : ControllerBase
     {
         [HttpPost, Route("login")]
-        public IActionResult Login([FromBody] LoginViewModel viewModel)
+        public IActionResult Login([FromHeader] LoginViewModel viewModel)
         {
             if (viewModel == null)
             {
@@ -33,8 +34,8 @@ namespace Plumsail.NaughtyCat.Web.Controllers
                 var signingCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
                 var jwt = new JwtSecurityToken(
-                    issuer: "https://localhost:65039",
-                    audience: "https://localhost:65039", 
+                    issuer: "https://localhost:44388",
+                    audience: "https://localhost:44388", 
                     claims: new List<Claim>(), 
                     expires: DateTime.Now.AddMinutes(5),
                     signingCredentials: signingCredentials);
@@ -44,6 +45,12 @@ namespace Plumsail.NaughtyCat.Web.Controllers
             }
 
             return Unauthorized();
+        }
+
+        [HttpGet, Route("Test")]
+        public IActionResult Test()
+        {
+            return Ok("Hello from Cat!");
         }
     }
 }
