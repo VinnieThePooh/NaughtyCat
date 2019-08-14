@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { AccountService } from "src/app/services/account.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "ncat-top",
@@ -7,7 +8,7 @@ import { AccountService } from "src/app/services/account.service";
   styleUrls: ["./top.component.css"]
 })
 export class TopComponent implements OnInit {
-  constructor(private accountService: AccountService) {}
+  constructor(private accountService: AccountService, private router: Router) {}
 
   ngOnInit() {}
 
@@ -17,5 +18,20 @@ export class TopComponent implements OnInit {
       this.accountService.userData &&
       this.accountService.userData.name;
     return (name || "Quest") + "!";
+  }
+
+  get isAuthenticated(): Boolean {
+    return this.accountService.isAuthenticated;
+  }
+
+  login() {
+    this.router.navigate(["login"]);
+  }
+
+  logout() {
+    // console.log("Clicked logout");
+    this.accountService.logout().subscribe(r => {
+      r && this.router.navigate(["home"]);
+    });
   }
 }

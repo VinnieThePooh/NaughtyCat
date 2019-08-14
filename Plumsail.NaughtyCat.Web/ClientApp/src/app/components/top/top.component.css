@@ -7,6 +7,11 @@
 
 .greeting {
   width: 300px;
-  border: 1px solid red;
+  /* border: 1px solid red; */
   padding: 10px;
+}
+
+:host /deep/ .mat-list-item-content {
+  padding-left: 0 !important;
+  margin-left: -10px;
 }

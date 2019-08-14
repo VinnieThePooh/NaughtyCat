@@ -18,8 +18,6 @@
 9. Think about bundling. Load optimization, etc
 
 
-
-
 n. Get to know fundamentals and concepts about
    1.OAuth
    2.OpenID
