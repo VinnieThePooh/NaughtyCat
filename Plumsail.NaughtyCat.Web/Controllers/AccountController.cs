@@ -15,7 +15,7 @@ namespace Plumsail.NaughtyCat.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController : ControllerBase
+    public class AccountController : ControllerBase
     {
         [HttpPost, Route("login")]
         public IActionResult Login(LoginDto viewModel)

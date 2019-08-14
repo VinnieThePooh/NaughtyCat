@@ -12,6 +12,17 @@
 
 6. Add new user registration functionality
 7. todos refactoring
+   1. +
+
 8. Think about bundling. Load optimization, etc
+
+
+
+
+n. Get to know fundamentals and concepts about
+   1.OAuth
+   2.OpenID
+   3.OpenID Connect
+   4.OpenIDDict
 
    

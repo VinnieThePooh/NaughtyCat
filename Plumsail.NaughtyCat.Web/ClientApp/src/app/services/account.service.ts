@@ -21,7 +21,7 @@ export class AccountService {
 
     var res = this.httpClient
       .post(
-        BaseApiUrl + "/auth/login",
+        BaseApiUrl + "/account/login",
         {
           email: email,
           password: password

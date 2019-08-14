@@ -4,15 +4,15 @@ namespace Plumsail.NaughtyCat.Common.Enums
 {
     public enum PriorityEnum
     {
-        [Description(nameof(PriorityEnum.Worst))]
+        [Description(nameof(Worst))]
         Worst = 1,
-        [Description(nameof(PriorityEnum.RatherNot))]
+        [Description(nameof(RatherNot))]
         RatherNot,
-        [Description(nameof(PriorityEnum.Average))]
+        [Description(nameof(Average))]
         Average,
-        [Description(nameof(PriorityEnum.NotBad))]
+        [Description(nameof(NotBad))]
         NotBad,
-        [Description(nameof(PriorityEnum.Highest))]
-        Highest,
+        [Description(nameof(Highest))]
+        Highest
     }
 }

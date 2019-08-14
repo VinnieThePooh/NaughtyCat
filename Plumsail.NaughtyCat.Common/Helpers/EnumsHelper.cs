@@ -7,6 +7,7 @@ namespace Plumsail.NaughtyCat.Common.Helpers
 {
     public static class EnumsHelper
     {
+        // enum value is fallback
         public static string GetEnumDescription<TEnum>(this TEnum enumValue)
             where TEnum : struct
         {
@@ -24,7 +25,7 @@ namespace Plumsail.NaughtyCat.Common.Helpers
                 return attributes[0].Description;
             }
 
-            return string.Empty;
+            return enumValue.ToString();
         }
     }
 }
