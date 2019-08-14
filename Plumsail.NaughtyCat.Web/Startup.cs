@@ -1,6 +1,4 @@
-using System;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,7 +9,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using OpenIddict.Abstractions;
 using Plumsail.NaughtyCat.Core;
 using Plumsail.NaughtyCat.DataAccess;
 using Plumsail.NaughtyCat.Domain.Models;
@@ -28,7 +25,7 @@ namespace Plumsail.NaughtyCat.Web
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public async Task ConfigureServices(IServiceCollection services)
+        public async void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<NaughtyCatDbContext>(options =>
             {
@@ -42,32 +39,32 @@ namespace Plumsail.NaughtyCat.Web
                 .AddDefaultTokenProviders();
 
             // OpenIddict services
-            services
-                .AddOpenIddict()
-                .AddCore(options =>
-                {
-                    options.UseEntityFrameworkCore().UseDbContext<NaughtyCatDbContext>()
-                           .ReplaceDefaultEntities<int>();
-                })
-                .AddServer(options =>
-                {
-                    // Enable the token endpoint (required to use the password flow and code flow).
-                    options.EnableTokenEndpoint("/connect/token")
-                        .EnableAuthorizationEndpoint("/connect/authorize");
+            //services
+            //    .AddOpenIddict()
+            //    .AddCore(options =>
+            //    {
+            //        options.UseEntityFrameworkCore().UseDbContext<NaughtyCatDbContext>()
+            //            .ReplaceDefaultEntities<int>();
+            //    })
+            //    .AddServer(options =>
+            //    {
+            //        // Enable the token endpoint (required to use the password flow and code flow).
+            //        options.EnableTokenEndpoint("/connect/token")
+            //            .EnableAuthorizationEndpoint("/connect/authorize");
 
-                    // Allow client applications to use the grant_type=password flow.
-                    options.AllowPasswordFlow();
+            //        // Allow client applications to use the grant_type=password flow.
+            //        options.AllowPasswordFlow();
 
-                    options.AllowAuthorizationCodeFlow();
+            //        options.AllowAuthorizationCodeFlow();
 
-                    // During development, you can disable the HTTPS requirement. Need or not?
-                    options.DisableHttpsRequirement();
+            //        // During development, you can disable the HTTPS requirement. Need or not?
+            //        options.DisableHttpsRequirement();
 
-                    // Accept token requests that don't specify a client_id.
-                    options.AcceptAnonymousClients();
-                }).AddValidation();
+            //        // Accept token requests that don't specify a client_id.
+            //        options.AcceptAnonymousClients();
+            //    }).AddValidation();
 
-            // todo: get rid off soon
+            // replace with OpenIddict?
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
@@ -111,21 +108,22 @@ namespace Plumsail.NaughtyCat.Web
                 {
                     await dbContext.Database.EnsureCreatedAsync();
 
-                    var manager = provider.GetRequiredService<IOpenIddictApplicationManager>();
+                    // openiddict related
+                    //var manager = provider.GetRequiredService<IOpenIddictApplicationManager>();
 
-                    var clientId = Configuration["OpenIDDict:ClientId"];
+                    //var clientId = Configuration["OpenIDDict:ClientId"];
 
-                    if (await manager.FindByClientIdAsync(clientId) == null)
-                    {
-                        var descriptor = new OpenIddictApplicationDescriptor
-                        {
-                            ClientId =  clientId,
-                            ClientSecret = Configuration["OpenIDDict:ClientSecret"],
-                            RedirectUris = { new Uri(Configuration["OpenIDDict:RedirectUris"]) }
-                        };
+                    //if (await manager.FindByClientIdAsync(clientId) == null)
+                    //{
+                    //    var descriptor = new OpenIddictApplicationDescriptor
+                    //    {
+                    //        ClientId =  clientId,
+                    //        ClientSecret = Configuration["OpenIDDict:ClientSecret"],
+                    //        //RedirectUris = { new Uri(Configuration["OpenIDDict:RedirectUris"]) }
+                    //    };
 
-                        await manager.CreateAsync(descriptor);
-                    }
+                    //    await manager.CreateAsync(descriptor);
+                    //}
                 }
             }
         }
@@ -151,7 +149,7 @@ namespace Plumsail.NaughtyCat.Web
             app.UseCors("EnableCORS");
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
-            
+
             app.UseSpa(spa =>
             {
                 // To learn more about options for serving an Angular SPA from ASP.NET Core,
