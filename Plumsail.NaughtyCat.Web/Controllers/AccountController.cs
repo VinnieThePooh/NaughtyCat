@@ -45,12 +45,14 @@ namespace Plumsail.NaughtyCat.Web.Controllers
 
             if (user == null)
             {
+                loginResult.UserData = null;
                 return Ok(loginResult);
             }
 
             var result = await _signInManager.CheckPasswordSignInAsync(user, viewModel.Password, false);
             if (!result.Succeeded)
             {
+                loginResult.UserData = null;
                 return Ok(loginResult);
             }
 
@@ -65,6 +67,8 @@ namespace Plumsail.NaughtyCat.Web.Controllers
                 signingCredentials: signingCredentials);
 
             loginResult.Succeeded = true;
+            loginResult.UserData.Id = user.Id;
+            loginResult.UserData.Name = user.UserName;
             loginResult.Token = new JwtSecurityTokenHandler().WriteToken(jwt);
 
             return Ok(loginResult);

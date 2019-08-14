@@ -1,4 +1,7 @@
+using System;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -9,7 +12,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Plumsail.NaughtyCat.Common.Helpers;
 using Plumsail.NaughtyCat.Core;
+using Plumsail.NaughtyCat.Core.Enums;
 using Plumsail.NaughtyCat.DataAccess;
 using Plumsail.NaughtyCat.Domain.Models;
 
@@ -108,22 +113,9 @@ namespace Plumsail.NaughtyCat.Web
                 {
                     await dbContext.Database.EnsureCreatedAsync();
 
-                    // openiddict related
-                    //var manager = provider.GetRequiredService<IOpenIddictApplicationManager>();
-
-                    //var clientId = Configuration["OpenIDDict:ClientId"];
-
-                    //if (await manager.FindByClientIdAsync(clientId) == null)
-                    //{
-                    //    var descriptor = new OpenIddictApplicationDescriptor
-                    //    {
-                    //        ClientId =  clientId,
-                    //        ClientSecret = Configuration["OpenIDDict:ClientSecret"],
-                    //        //RedirectUris = { new Uri(Configuration["OpenIDDict:RedirectUris"]) }
-                    //    };
-
-                    //    await manager.CreateAsync(descriptor);
-                    //}
+                    var userManager = provider.GetRequiredService<UserManager<ApplicationUser>>();
+                    var roleManager = provider.GetRequiredService<RoleManager<ApplicationRole>>();
+                    await SeedIdentityData(userManager, roleManager);
                 }
             }
         }
@@ -152,9 +144,6 @@ namespace Plumsail.NaughtyCat.Web
 
             app.UseSpa(spa =>
             {
-                // To learn more about options for serving an Angular SPA from ASP.NET Core,
-                // see https://go.microsoft.com/fwlink/?linkid=864501
-
                 spa.Options.SourcePath = "ClientApp";
 
                 // todo: check why sometimes falls with timeout
@@ -163,6 +152,76 @@ namespace Plumsail.NaughtyCat.Web
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
+        }
+
+        private async Task SeedIdentityData(UserManager<ApplicationUser> userManager,
+            RoleManager<ApplicationRole> roleManager)
+        {
+            await SeedRoles(roleManager);
+            await SeedUsers(userManager);
+        }
+
+
+        // todo: probably refactor to grab roles automatically from somewhere
+        private async Task SeedRoles(RoleManager<ApplicationRole> roleManager)
+        {
+            foreach (var enumValue in Enum.GetValues(typeof(RoleEnum)).OfType<RoleEnum>())
+            {
+                var roleName = enumValue.GetEnumDescription();
+
+                if (await roleManager.FindByNameAsync(roleName) == null)
+                {
+                    await roleManager.CreateAsync(new ApplicationRole()
+                    {
+                        Name = roleName,
+                        NormalizedName = roleName.ToUpper(),
+                        CreateDate = DateTime.Now
+                    });
+                }
+            }
+        }
+
+        private async Task SeedUsers(UserManager<ApplicationUser> userManager)
+        {
+            var email = "naughtycat@ncat.gov";
+            var name = "Jake";
+            var password = "ncPass12#";
+            
+            if (await userManager.FindByEmailAsync(email) == null)
+            {
+                await CreateUserWithRole(name, email, password, RoleEnum.Administrator, userManager);
+            }
+
+            email = "johndoe@gmail.com";
+            name = "Johny";
+            password = "doePass12#";
+
+
+            if (await userManager.FindByEmailAsync(email) == null)
+            {
+                await CreateUserWithRole(name, email, password, RoleEnum.BasicUser, userManager);
+            }
+        }
+
+
+        private async Task CreateUserWithRole(string name, string email, string password, RoleEnum role,
+            UserManager<ApplicationUser> userManager)
+        {
+            var user = new ApplicationUser()
+            {
+                UserName = name,
+                NormalizedUserName = name.ToUpper(),
+                Email = email,
+                NormalizedEmail = email.ToUpper(),
+                CreateDate = DateTime.Now,
+                EmailConfirmed = true,
+            };
+
+            var result = await userManager.CreateAsync(user,password);
+            if (result.Succeeded)
+            {
+                await userManager.AddToRoleAsync(user, role.GetEnumDescription());
+            }
         }
     }
 }

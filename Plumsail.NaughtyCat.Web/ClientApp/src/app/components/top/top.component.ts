@@ -12,10 +12,10 @@ export class TopComponent implements OnInit {
   ngOnInit() {}
 
   get greetingName(): string {
-    let email =
+    let name =
       this.accountService.isAuthenticated &&
       this.accountService.userData &&
-      this.accountService.userData.email;
-    return (email || "Quest") + "!";
+      this.accountService.userData.name;
+    return (name || "Quest") + "!";
   }
 }
