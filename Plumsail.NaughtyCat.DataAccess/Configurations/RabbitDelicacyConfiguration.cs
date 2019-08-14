@@ -9,7 +9,7 @@ using Plumsail.NaughtyCat.Domain.Models;
 
 namespace Plumsail.NaughtyCat.DataAccess.Configurations
 {
-    public class RabbitDelicacyConfiguration : IEntityTypeConfiguration<RabbitDelicacy>
+    public class RabbitDelicacyConfiguration : HandbookConfigurationBase<RabbitDelicacy, DelicacyEnum>, IEntityTypeConfiguration<RabbitDelicacy>
     {
         public void Configure(EntityTypeBuilder<RabbitDelicacy> builder)
         {
@@ -17,20 +17,7 @@ namespace Plumsail.NaughtyCat.DataAccess.Configurations
             builder.HasMany(x => x.Rabbits).WithOne(x => x.Delicacy).HasForeignKey(x => x.IdRabbitDelicacy)
                 .IsRequired(false);
 
-            var data = new List<RabbitDelicacy>();
-
-            //todo: refactor. this is reusable part
-            foreach (var delicacy in Enum.GetValues(typeof(DelicacyEnum)).OfType<DelicacyEnum>())
-            {
-                var d = delicacy.GetEnumDescription();
-                data.Add(new RabbitDelicacy()
-                {
-                    Id = (int)delicacy,
-                    Name = d,
-                    Description = d
-                });
-            }
-            builder.HasData(data);
+            ApplySeeding(builder);
         }
     }
 }
