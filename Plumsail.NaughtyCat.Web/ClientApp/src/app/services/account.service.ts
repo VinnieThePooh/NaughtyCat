@@ -7,8 +7,10 @@ import {
 } from "../models/storageConstants";
 import { Observable, BehaviorSubject, Subject } from "rxjs";
 import { LoginResult } from "../models/login-result";
-import { LoginComponent } from "../components/login/login.component";
 import { UserData } from "../models/user-data";
+import { JwtHelperService } from "@auth0/angular-jwt";
+
+const helper = new JwtHelperService();
 
 @Injectable({
   providedIn: "root"
@@ -21,7 +23,7 @@ export class AccountService {
 
     var res = this.httpClient
       .post(
-        BaseApiUrl + "/account/login",
+        BaseApiUrl + "account/login",
         {
           email: email,
           password: password
@@ -60,15 +62,18 @@ export class AccountService {
     }
 
     localStorage.removeItem(AuthJwtConst);
+    localStorage.removeItem(UserDataConst);
     subject.next(true);
 
     return subject.asObservable();
   }
 
   get isAuthenticated(): Boolean {
-    //todo:  add expiration date checking
     var token = localStorage.getItem(AuthJwtConst);
-    return !!token;
+
+    // console.log(helper.getTokenExpirationDate(token) || "token is not defined");
+
+    return token && !helper.isTokenExpired(token);
   }
 
   register(): Observable<Boolean> {

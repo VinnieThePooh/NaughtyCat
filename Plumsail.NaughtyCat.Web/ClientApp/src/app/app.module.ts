@@ -16,6 +16,10 @@ import { BottomComponent } from "./components/bottom/bottom.component";
 import { AccountService } from "./services/account.service";
 import { HttpClientModule } from "@angular/common/http";
 import { RegisterComponent } from "./components/register/register.component";
+import { JwtModule } from "@auth0/angular-jwt";
+
+import { authJwtConst } from "./models/storageConstants";
+import { tokenGetter } from "./helpers/auth-helpers";
 
 @NgModule({
   declarations: [
@@ -37,7 +41,14 @@ import { RegisterComponent } from "./components/register/register.component";
     MatButtonModule,
     MatCheckboxModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        whitelistedDomains: [window.location.origin],
+        blacklistedRoutes: []
+      }
+    })
   ],
   providers: [AccountService],
   bootstrap: [AppComponent]

@@ -42,32 +42,7 @@ namespace Plumsail.NaughtyCat.Web
             services.AddIdentity<ApplicationUser, ApplicationRole>()
                 .AddEntityFrameworkStores<NaughtyCatDbContext>()
                 .AddDefaultTokenProviders();
-
-            // OpenIddict services
-            //services
-            //    .AddOpenIddict()
-            //    .AddCore(options =>
-            //    {
-            //        options.UseEntityFrameworkCore().UseDbContext<NaughtyCatDbContext>()
-            //            .ReplaceDefaultEntities<int>();
-            //    })
-            //    .AddServer(options =>
-            //    {
-            //        // Enable the token endpoint (required to use the password flow and code flow).
-            //        options.EnableTokenEndpoint("/connect/token")
-            //            .EnableAuthorizationEndpoint("/connect/authorize");
-
-            //        // Allow client applications to use the grant_type=password flow.
-            //        options.AllowPasswordFlow();
-
-            //        options.AllowAuthorizationCodeFlow();
-
-            //        // During development, you can disable the HTTPS requirement. Need or not?
-            //        options.DisableHttpsRequirement();
-
-            //        // Accept token requests that don't specify a client_id.
-            //        options.AcceptAnonymousClients();
-            //    }).AddValidation();
+            
 
             // replace with OpenIddict?
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -134,11 +109,11 @@ namespace Plumsail.NaughtyCat.Web
                 app.UseHsts();
             }
 
+            app.UseCors("EnableCORS");
             app.UseAuthentication();
             app.UseMvc();
 
             app.UseHttpsRedirection();
-            app.UseCors("EnableCORS");
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
@@ -195,7 +170,6 @@ namespace Plumsail.NaughtyCat.Web
             email = "johndoe@gmail.com";
             name = "Johny";
             password = "doePass12#";
-
 
             if (await userManager.FindByEmailAsync(email) == null)
             {
