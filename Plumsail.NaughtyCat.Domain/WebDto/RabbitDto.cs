@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Plumsail.NaughtyCat.Common.Interfaces;
 
-namespace Plumsail.NaughtyCat.Web.Dto
+namespace Plumsail.NaughtyCat.Domain.WebDto
 {
     public class RabbitDto : IAuditable, IDtoMarker
     {

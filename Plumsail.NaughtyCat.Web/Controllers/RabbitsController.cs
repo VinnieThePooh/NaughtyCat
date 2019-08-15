@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Plumsail.NaughtyCat.Domain.WebDto;
 using Plumsail.NaughtyCat.Web.Dto;
 
 namespace Plumsail.NaughtyCat.Web.Controllers
@@ -20,7 +21,7 @@ namespace Plumsail.NaughtyCat.Web.Controllers
         }
 
 
-        public async Task<RabbitDto> GetRabbits(int pageNumber, int pageSize, string filterValue)
+        public Task<RabbitDto> GetRabbits(int pageNumber, int pageSize, string filterValue)
         {
             return null;
         }

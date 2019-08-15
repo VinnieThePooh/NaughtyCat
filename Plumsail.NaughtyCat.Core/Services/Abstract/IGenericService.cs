@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Plumsail.NaughtyCat.Common.Interfaces;
 
-namespace Plumsail.NaughtyCat.Core.Services
+namespace Plumsail.NaughtyCat.Core.Services.Abstract
 {
     public interface IGenericService<TEntity, TDto, TKey> 
         where TEntity : IHasKey<TKey>
@@ -17,6 +15,8 @@ namespace Plumsail.NaughtyCat.Core.Services
 
         Task Delete(TKey key);
 
-        Task<List<TDto>> GetByCondition<TFilter>(Func<TDto, bool> filter) where TFilter : IFilterMarker;
+        Task<List<TDto>> GetByCondition<TFilter>(TFilter filter) where TFilter : IFilterMarker;
+
+        Task<List<TDto>> GetByCondition<TFilter>(TFilter filter, int pageNumber, int pageSize) where TFilter : IFilterMarker;
     }
 }

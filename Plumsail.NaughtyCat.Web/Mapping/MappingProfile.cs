@@ -3,7 +3,7 @@ using Plumsail.NaughtyCat.Common.Constants;
 using Plumsail.NaughtyCat.Common.Enums;
 using Plumsail.NaughtyCat.Common.Extensions;
 using Plumsail.NaughtyCat.Domain.Models;
-using Plumsail.NaughtyCat.Web.Dto;
+using Plumsail.NaughtyCat.Domain.WebDto;
 
 namespace Plumsail.NaughtyCat.Web.Mapping
 {
