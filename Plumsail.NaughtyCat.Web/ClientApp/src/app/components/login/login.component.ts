@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { AccountService } from "src/app/services/account.service";
+import { AuthService } from "src/app/services/auth.service";
 import { NgForm, FormGroup } from "@angular/forms";
 import { Router } from "@angular/router";
 import { LoginResult } from "src/app/models/login-result";
@@ -10,7 +10,7 @@ import { LoginResult } from "src/app/models/login-result";
   styleUrls: ["./login.component.css"]
 })
 export class LoginComponent implements OnInit {
-  constructor(private authService: AccountService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit() {}
 
@@ -28,7 +28,14 @@ export class LoginComponent implements OnInit {
     this.authService.login(email, password).subscribe(
       r => {
         if (r.succeeded) {
-          this.router.navigate(["rabbits"]);
+          const rUrl = this.authService.redirectUrl;
+
+          if (rUrl) {
+            this.router.navigate([rUrl]);
+            this.authService.redirectUrl = null;
+          } else {
+            this.router.navigate(["rabbits"]);
+          }
         } else {
           // incorrect login or password
           console.log("Incorrect email or password");

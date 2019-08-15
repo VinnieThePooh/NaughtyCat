@@ -18,13 +18,13 @@ import { HomeComponent } from "./components/home/home.component";
 import { LoginComponent } from "./components/login/login.component";
 import { FormsModule, NgControl, ReactiveFormsModule } from "@angular/forms";
 import { BottomComponent } from "./components/bottom/bottom.component";
-import { AccountService } from "./services/account.service";
+import { AuthService } from "./services/auth.service";
 import { HttpClientModule } from "@angular/common/http";
 import { RegisterComponent } from "./components/register/register.component";
 import { JwtModule } from "@auth0/angular-jwt";
 import { tokenGetter } from "./helpers/auth-helpers";
-import { RabbitMainComponent } from './components/rabbit/rabbit-main/rabbit-main.component';
-import { RabbitEditComponent } from './components/rabbit/rabbit-edit/rabbit-edit.component';
+import { RabbitMainComponent } from "./components/rabbit/rabbit-main/rabbit-main.component";
+import { RabbitEditComponent } from "./components/rabbit/rabbit-edit/rabbit-edit.component";
 
 @NgModule({
   declarations: [
@@ -60,7 +60,7 @@ import { RabbitEditComponent } from './components/rabbit/rabbit-edit/rabbit-edit
       }
     })
   ],
-  providers: [AccountService],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

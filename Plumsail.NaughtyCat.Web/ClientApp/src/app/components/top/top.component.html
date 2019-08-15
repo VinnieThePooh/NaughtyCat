@@ -13,14 +13,14 @@
       <mat-list *ngIf="isAuthenticated">
         <mat-list-item>
           <div>
-            <a mat-button (click)="logout()">Выйти</a>
+            <a mat-button (click)="logout()">Log out</a>
           </div>
         </mat-list-item>
       </mat-list>
       <mat-list *ngIf="!isAuthenticated">
         <mat-list-item>
           <div>
-            <a mat-button (click)="login()">Войти</a>
+            <a mat-button (click)="login()">Log in</a>
           </div>
         </mat-list-item></mat-list
       >

@@ -15,7 +15,9 @@ const helper = new JwtHelperService();
 @Injectable({
   providedIn: "root"
 })
-export class AccountService {
+export class AuthService {
+  public redirectUrl: string;
+
   constructor(private httpClient: HttpClient) {}
 
   login(email: string, password: string): Observable<LoginResult> {
@@ -68,11 +70,8 @@ export class AccountService {
     return subject.asObservable();
   }
 
-  get isAuthenticated(): Boolean {
+  get isAuthenticated(): boolean {
     var token = localStorage.getItem(AuthJwtConst);
-
-    // console.log(helper.getTokenExpirationDate(token) || "token is not defined");
-
     return token && !helper.isTokenExpired(token);
   }
 

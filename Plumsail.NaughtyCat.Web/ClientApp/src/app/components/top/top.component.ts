@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { AccountService } from "src/app/services/account.service";
+import { AuthService } from "src/app/services/auth.service";
 import { Router } from "@angular/router";
 
 @Component({
@@ -8,7 +8,7 @@ import { Router } from "@angular/router";
   styleUrls: ["./top.component.css"]
 })
 export class TopComponent implements OnInit {
-  constructor(private accountService: AccountService, private router: Router) {}
+  constructor(private accountService: AuthService, private router: Router) {}
 
   ngOnInit() {}
 
@@ -29,9 +29,8 @@ export class TopComponent implements OnInit {
   }
 
   logout() {
-    // console.log("Clicked logout");
     this.accountService.logout().subscribe(r => {
-      r && this.router.navigate(["home"]);
+      r && this.router.navigate(["login"]);
     });
   }
 }
