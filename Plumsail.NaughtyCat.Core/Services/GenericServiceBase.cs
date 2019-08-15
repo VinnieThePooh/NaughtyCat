@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 using Plumsail.NaughtyCat.Common.Interfaces;
-using Plumsail.NaughtyCat.DataAccess;
 using Plumsail.NaughtyCat.DataAccess.Repositories;
 
 namespace Plumsail.NaughtyCat.Core.Services
@@ -12,14 +11,17 @@ namespace Plumsail.NaughtyCat.Core.Services
         where TDto: IDtoMarker
     {
         protected readonly IGenericProvider<TEntity, int> _dataProvider;
+        protected readonly IMapper _mapper;
 
-        protected GenericServiceBase(IGenericProvider<TEntity, int> dataProvider)
+        protected GenericServiceBase(IGenericProvider<TEntity, int> dataProvider, IMapper mapper)
         {
             _dataProvider = dataProvider ?? throw new ArgumentNullException(nameof(dataProvider));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
-        public Task<int> Add(TDto entity)
+        public async Task<int> Add(TDto dto)
         {
-            throw new NotImplementedException();
+            var entity = _mapper.Map<TEntity>(dto);
+            return await _dataProvider.Add(entity);
         }
 
         public Task<TDto> GetByKey(int key)

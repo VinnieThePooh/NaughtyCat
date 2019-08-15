@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Text;
 
-namespace Plumsail.NaughtyCat.Common.Helpers
+namespace Plumsail.NaughtyCat.Common.Extensions
 {
-    public static class EnumsHelper
+    public static class EnumExtensions
     {
         // enum value is fallback
         public static string GetEnumDescription<TEnum>(this TEnum enumValue)

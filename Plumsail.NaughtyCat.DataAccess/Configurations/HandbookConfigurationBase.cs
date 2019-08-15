@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Plumsail.NaughtyCat.Common.Helpers;
+using Plumsail.NaughtyCat.Common.Extensions;
 using Plumsail.NaughtyCat.Common.Interfaces;
 using Plumsail.NaughtyCat.Domain.Models;
 

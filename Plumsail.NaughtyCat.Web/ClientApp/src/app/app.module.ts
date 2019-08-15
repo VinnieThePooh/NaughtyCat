@@ -11,7 +11,8 @@ import {
   MatInputModule,
   MatExpansionModule,
   MatListModule,
-  MatDividerModule
+  MatDividerModule,
+  MatTableModule
 } from "@angular/material";
 import { RabbitListviewComponent } from "./components/rabbit/rabbit-listview/rabbit-listview.component";
 import { HomeComponent } from "./components/home/home.component";
@@ -25,6 +26,7 @@ import { JwtModule } from "@auth0/angular-jwt";
 import { tokenGetter } from "./helpers/auth-helpers";
 import { RabbitMainComponent } from "./components/rabbit/rabbit-main/rabbit-main.component";
 import { RabbitEditComponent } from "./components/rabbit/rabbit-edit/rabbit-edit.component";
+import { RabbitService } from "./services/rabbit.service";
 
 @NgModule({
   declarations: [
@@ -52,6 +54,7 @@ import { RabbitEditComponent } from "./components/rabbit/rabbit-edit/rabbit-edit
     MatExpansionModule,
     MatListModule,
     MatInputModule,
+    MatTableModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
@@ -60,7 +63,7 @@ import { RabbitEditComponent } from "./components/rabbit/rabbit-edit/rabbit-edit
       }
     })
   ],
-  providers: [AuthService],
+  providers: [AuthService, RabbitService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

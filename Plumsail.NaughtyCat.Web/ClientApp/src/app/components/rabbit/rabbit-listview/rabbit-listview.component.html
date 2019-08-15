@@ -1,1 +1,29 @@
-<p>rabbit-listview works!</p>
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <ng-container matColumnDef="Id">
+    <th mat-header-cell *matHeaderCellDef>Id</th>
+    <td met-cell *matCellDef="let element">{{ element.id }}</td>
+  </ng-container>
+  <ng-container matColumnDef="Name">
+    <th mat-header-cell *matHeaderCellDef>Name</th>
+    <td met-cell *matCellDef="let element">{{ element.name }}</td>
+  </ng-container>
+  <ng-container matColumnDef="Age">
+    <th mat-header-cell *matHeaderCellDef>Age</th>
+    <td met-cell *matCellDef="let element">{{ element.age }}</td>
+  </ng-container>
+  <ng-container matColumnDef="Color">
+    <th mat-header-cell *matHeaderCellDef>Color</th>
+    <td met-cell *matCellDef="let element">{{ element.color }}</td>
+  </ng-container>
+  <ng-container matColumnDef="CreateDate">
+    <th mat-header-cell *matHeaderCellDef>CreateDate</th>
+    <td met-cell *matCellDef="let element">{{ element.createDate }}</td>
+  </ng-container>
+  <ng-container matColumnDef="UpdateDate">
+    <th mat-header-cell *matHeaderCellDef>UpdateDate</th>
+    <td met-cell *matCellDef="let element">{{ element.updateDate }}</td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+  <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
+</table>

@@ -10,10 +10,10 @@ namespace Plumsail.NaughtyCat.Core.Services
         where TEntity : IHasKey<TKey>
         where TDto : IDtoMarker
     {
-        Task<TKey> Add(TDto entity);
+        Task<TKey> Add(TDto dto);
         Task<TDto> GetByKey(TKey key);
 
-        Task Update(TDto entity);
+        Task Update(TDto dto);
 
         Task Delete(TKey key);
 
