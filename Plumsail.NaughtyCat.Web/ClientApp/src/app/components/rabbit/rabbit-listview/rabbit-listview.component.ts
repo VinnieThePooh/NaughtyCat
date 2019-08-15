@@ -10,7 +10,7 @@ import { Rabbit } from "src/app/models/rabbit";
   styleUrls: ["./rabbit-listview.component.css"]
 })
 export class RabbitListviewComponent implements OnInit {
-  rabbitsDataSource: Observable<Rabbit[]>;
+  rabbitsDataSource: Rabbit[];
   columnsToDisplay: Array<string> = [
     "name",
     "age",
@@ -22,6 +22,13 @@ export class RabbitListviewComponent implements OnInit {
   constructor(private rabbitService: RabbitService) {}
 
   ngOnInit() {
-    this.rabbitsDataSource = this.rabbitService.getRabbits();
+    this.rabbitService.getRabbits().subscribe(
+      r => {
+        this.rabbitsDataSource = r;
+      },
+      e => {
+        throw e;
+      }
+    );
   }
 }

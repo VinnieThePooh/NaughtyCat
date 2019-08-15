@@ -4,7 +4,7 @@ using Plumsail.NaughtyCat.Domain.Enums;
 
 namespace Plumsail.NaughtyCat.Domain.Models.ListViews
 {
-    public class RabbitListViewFilter: IFilterMarker
+    public class RabbitListModelFilter : IFilterMarker
     {
         public string Name { get; set; }
         public int? Age { get; set; }
@@ -13,6 +13,7 @@ namespace Plumsail.NaughtyCat.Domain.Models.ListViews
         public PriorityEnum Priority { get; set; }
         public DateTime? CreateDateFrom { get; set; }
         public DateTime? CreateDateTo { get; set; }
-        
+        public DateTime? UpdateDateFrom { get; set; }
+        public DateTime? UpdateDateTo { get; set; }
     }
 }

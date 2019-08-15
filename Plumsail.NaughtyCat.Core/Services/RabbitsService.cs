@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq.Expressions;
 using AutoMapper;
 using Plumsail.NaughtyCat.Core.Services.Abstract;
@@ -16,7 +17,9 @@ namespace Plumsail.NaughtyCat.Core.Services
 
         protected override Expression<Func<Rabbit, bool>> GenerateExpression<TFilter>(TFilter filter)
         {
-            throw new NotImplementedException();
+            Debugger.Break();
+
+            return null;
         }
     }
 }
