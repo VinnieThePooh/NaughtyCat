@@ -1,8 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Plumsail.NaughtyCat.Common.Interfaces;
+using Plumsail.NaughtyCat.Core.Services;
+using Plumsail.NaughtyCat.Core.Services.Abstract;
+using Plumsail.NaughtyCat.Domain.Models;
+using Plumsail.NaughtyCat.Domain.WebDto;
 
 namespace Plumsail.NaughtyCat.Core
 {
@@ -10,7 +11,7 @@ namespace Plumsail.NaughtyCat.Core
     {
         public void RegisterServices(IServiceCollection services)
         {
-            
+            services.AddTransient<GenericServiceBase<Rabbit, RabbitDto>, RabbitsService>();
         }
     }
 }

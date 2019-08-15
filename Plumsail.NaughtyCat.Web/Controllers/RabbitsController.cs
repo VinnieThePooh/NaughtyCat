@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Plumsail.NaughtyCat.Core.Services.Abstract;
+using Plumsail.NaughtyCat.Domain.Models;
+using Plumsail.NaughtyCat.Domain.Models.ListViews;
 using Plumsail.NaughtyCat.Domain.WebDto;
-using Plumsail.NaughtyCat.Web.Dto;
 
 namespace Plumsail.NaughtyCat.Web.Controllers
 {
@@ -13,17 +15,16 @@ namespace Plumsail.NaughtyCat.Web.Controllers
     [ApiController]
     public class RabbitsController : ControllerBase
     {
-        private readonly IMapper _mapper;
+        private readonly GenericServiceBase<Rabbit, RabbitDto> _rabbitsService;
 
-        public RabbitsController(IMapper mapper)
+        public RabbitsController(GenericServiceBase<Rabbit, RabbitDto> rabbitsService)
         {
-            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _rabbitsService = rabbitsService ?? throw new ArgumentNullException(nameof(rabbitsService));
         }
 
-
-        public Task<RabbitDto> GetRabbits(int pageNumber, int pageSize, string filterValue)
+        public Task<List<RabbitDto>> GetRabbits([FromBody] RabbitListView viewModel)
         {
-            return null;
+            return _rabbitsService.GetByCondition(viewModel.Filter, viewModel.PageNumber, viewModel.PageSize);
         }
     }
 }

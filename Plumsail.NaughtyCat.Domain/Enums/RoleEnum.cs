@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Plumsail.NaughtyCat.Core.Enums
+namespace Plumsail.NaughtyCat.Domain.Enums
 {
     public enum RoleEnum
     {

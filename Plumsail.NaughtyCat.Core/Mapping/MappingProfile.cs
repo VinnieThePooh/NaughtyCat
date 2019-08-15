@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using Plumsail.NaughtyCat.Common.Constants;
-using Plumsail.NaughtyCat.Common.Enums;
 using Plumsail.NaughtyCat.Common.Extensions;
+using Plumsail.NaughtyCat.Domain.Enums;
 using Plumsail.NaughtyCat.Domain.Models;
 using Plumsail.NaughtyCat.Domain.WebDto;
 
-namespace Plumsail.NaughtyCat.Web.Mapping
+namespace Plumsail.NaughtyCat.Core.Mapping
 {
     public class MappingProfile : Profile
     {

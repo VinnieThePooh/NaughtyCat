@@ -16,8 +16,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Plumsail.NaughtyCat.Common.Extensions;
 using Plumsail.NaughtyCat.Core;
-using Plumsail.NaughtyCat.Core.Enums;
+using Plumsail.NaughtyCat.Core.Mapping;
 using Plumsail.NaughtyCat.DataAccess;
+using Plumsail.NaughtyCat.Domain.Enums;
 using Plumsail.NaughtyCat.Domain.Models;
 
 namespace Plumsail.NaughtyCat.Web
@@ -36,7 +37,7 @@ namespace Plumsail.NaughtyCat.Web
         {
             services.AddAutoMapper(new Assembly[]
             {
-                Assembly.GetExecutingAssembly()
+                typeof(MappingProfile).Assembly
             });
 
             services.AddDbContext<NaughtyCatDbContext>(options =>

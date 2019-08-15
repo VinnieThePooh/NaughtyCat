@@ -11,7 +11,6 @@ namespace Plumsail.NaughtyCat.DataAccess.Providers.Abstract
         where TEntity : class, IHasKey<int>, new()
     {
         protected readonly NaughtyCatDbContext _dbContext;
-
         protected readonly DbSet<TEntity> _dataSet;
 
         protected GenericProviderBase(NaughtyCatDbContext dbContext)

@@ -17,6 +17,6 @@ namespace Plumsail.NaughtyCat.Core.Services.Abstract
 
         Task<List<TDto>> GetByCondition<TFilter>(TFilter filter) where TFilter : IFilterMarker;
 
-        Task<List<TDto>> GetByCondition<TFilter>(TFilter filter, int pageNumber, int pageSize) where TFilter : IFilterMarker;
+        Task<List<TDto>> GetByCondition<TFilter>(TFilter filter, int? pageNumber, int? pageSize) where TFilter : IFilterMarker;
     }
 }

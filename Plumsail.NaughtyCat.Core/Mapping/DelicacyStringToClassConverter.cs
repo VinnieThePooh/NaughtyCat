@@ -1,10 +1,10 @@
 ﻿using System;
 using AutoMapper;
-using Plumsail.NaughtyCat.Common.Enums;
 using Plumsail.NaughtyCat.Common.Extensions;
+using Plumsail.NaughtyCat.Domain.Enums;
 using Plumsail.NaughtyCat.Domain.Models;
 
-namespace Plumsail.NaughtyCat.Web.Mapping
+namespace Plumsail.NaughtyCat.Core.Mapping
 {
     public class DelicacyStringToClassConverter : IValueConverter<string, RabbitDelicacy>
     {

@@ -1,6 +1,8 @@
-﻿using System;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Plumsail.NaughtyCat.Common.Interfaces;
+using Plumsail.NaughtyCat.DataAccess.Providers;
+using Plumsail.NaughtyCat.DataAccess.Providers.Abstract;
+using Plumsail.NaughtyCat.Domain.Models;
 
 namespace Plumsail.NaughtyCat.DataAccess
 {
@@ -8,7 +10,7 @@ namespace Plumsail.NaughtyCat.DataAccess
     {
         public void RegisterServices(IServiceCollection services)
         {
-            
+            services.AddTransient<IGenericProvider<Rabbit, int>, RabbitsProvider>();
         }
     }
 }

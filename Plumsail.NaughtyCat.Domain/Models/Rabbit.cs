@@ -1,5 +1,4 @@
 ﻿using System;
-using Plumsail.NaughtyCat.Common.Enums;
 using Plumsail.NaughtyCat.Common.Interfaces;
 
 namespace Plumsail.NaughtyCat.Domain.Models

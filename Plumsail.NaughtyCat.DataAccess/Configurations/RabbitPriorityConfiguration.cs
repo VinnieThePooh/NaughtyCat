@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Plumsail.NaughtyCat.Common.Enums;
+using Plumsail.NaughtyCat.Domain.Enums;
 using Plumsail.NaughtyCat.Domain.Models;
 
 namespace Plumsail.NaughtyCat.DataAccess.Configurations

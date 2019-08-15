@@ -4,7 +4,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using Plumsail.NaughtyCat.Common.Interfaces;
 using Plumsail.NaughtyCat.DataAccess.Providers.Abstract;
 
@@ -49,13 +48,16 @@ namespace Plumsail.NaughtyCat.Core.Services.Abstract
             return data.Select(x => Mapper.Map<TDto>(x)).ToList();
         }
 
-        public async Task<List<TDto>> GetByCondition<TFilter>(TFilter filter, int pageNumber, int pageSize)
+        public async Task<List<TDto>> GetByCondition<TFilter>(TFilter filter, int? pageNumber, int? pageSize)
             where TFilter : IFilterMarker
         {
-            var data = await DataProvider.GetByCondition(GenerateExpression(filter), pageNumber, pageSize);
+            var pNumber = pageNumber ?? 1;
+
+            //todo: set default pagesize in config
+            int pSize = pageSize ?? 10;
+            var data = await DataProvider.GetByCondition(GenerateExpression(filter), pNumber, pSize);
             return data.Select(x => Mapper.Map<TDto>(x)).ToList();
         }
-
 
         protected abstract Expression<Func<TEntity, bool>> GenerateExpression<TFilter>(TFilter filter)
             where TFilter : IFilterMarker;

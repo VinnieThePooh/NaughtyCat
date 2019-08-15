@@ -1,6 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { RabbitService } from "src/app/services/rabbit.service";
 import { MatTableDataSource } from "@angular/material/table";
+import { Observable } from "rxjs";
+import { Rabbit } from "src/app/models/rabbit";
 
 @Component({
   selector: "ncat-rabbit-listview",
@@ -8,7 +10,7 @@ import { MatTableDataSource } from "@angular/material/table";
   styleUrls: ["./rabbit-listview.component.css"]
 })
 export class RabbitListviewComponent implements OnInit {
-  rabbitsDataSource: MatTableDataSource;
+  rabbitsDataSource: Observable<Rabbit[]>;
   columnsToDisplay: Array<string> = [
     "name",
     "age",
@@ -20,11 +22,6 @@ export class RabbitListviewComponent implements OnInit {
   constructor(private rabbitService: RabbitService) {}
 
   ngOnInit() {
-    this.rabbitService.getRabbits().subscribe(
-      r => {
-        this.rabbitsDataSource = r;
-      },
-      error => {}
-    );
+    this.rabbitsDataSource = this.rabbitService.getRabbits();
   }
 }
