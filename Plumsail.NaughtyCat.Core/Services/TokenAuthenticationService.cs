@@ -28,14 +28,15 @@ namespace Plumsail.NaughtyCat.Core.Services
             _tokenModel = tokenModel.Value ?? throw new ArgumentNullException(nameof(tokenModel));
         }
 
-        public async Task<JwtRequestResult> IsAuthenticated(JwtTokenRequest request)
+        public async Task<JwtRequestResult> AuthenticateRequest(JwtTokenRequest request)
         {
+            if (request == null) throw new ArgumentNullException(nameof(request));
+
             var requestResult = new JwtRequestResult()
             {
                 Succeeded = false,
                 UserData =  null
             };
-
 
             var user = await _userManager.FindByEmailAsync(request.Email);
 

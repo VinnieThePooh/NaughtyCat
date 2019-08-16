@@ -5,6 +5,6 @@ namespace Plumsail.NaughtyCat.Core.Services.Abstract
 {
     public interface IAuthService
     {
-        Task<JwtRequestResult> IsAuthenticated(JwtTokenRequest request);
+        Task<JwtRequestResult> AuthenticateRequest(JwtTokenRequest request);
     }
 }

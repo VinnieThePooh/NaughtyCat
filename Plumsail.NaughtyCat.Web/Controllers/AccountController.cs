@@ -34,7 +34,7 @@ namespace Plumsail.NaughtyCat.Web.Controllers
                 return BadRequest("Invalid client request");
             }
 
-            var rResult = await _authService.IsAuthenticated(request);
+            var rResult = await _authService.AuthenticateRequest(request);
             return Ok(rResult);
         }
     }

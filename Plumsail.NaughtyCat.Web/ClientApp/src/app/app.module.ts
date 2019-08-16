@@ -27,6 +27,8 @@ import { tokenGetter } from "./helpers/auth-helpers";
 import { RabbitMainComponent } from "./components/rabbit/rabbit-main/rabbit-main.component";
 import { RabbitEditComponent } from "./components/rabbit/rabbit-edit/rabbit-edit.component";
 import { RabbitService } from "./services/rabbit.service";
+import { HTTP_INTERCEPTORS } from "@angular/common/http";
+import { AuthInterceptor } from "./interceptors/auth-interceptor";
 
 @NgModule({
   declarations: [
@@ -63,7 +65,15 @@ import { RabbitService } from "./services/rabbit.service";
       }
     })
   ],
-  providers: [AuthService, RabbitService],
+  providers: [
+    AuthService,
+    RabbitService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
