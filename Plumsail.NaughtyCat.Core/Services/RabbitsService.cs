@@ -17,7 +17,6 @@ namespace Plumsail.NaughtyCat.Core.Services
 
         protected override Expression<Func<Rabbit, bool>> GenerateExpression<TFilter>(TFilter filter)
         {
-            Debugger.Break();
 
             return null;
         }

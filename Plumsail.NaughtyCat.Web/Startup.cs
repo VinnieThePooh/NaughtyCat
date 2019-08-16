@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -36,9 +37,7 @@ namespace Plumsail.NaughtyCat.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public async void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton(Configuration);
-
-            services.AddAutoMapper(new Assembly[]
+            services.AddAutoMapper(new[]
             {
                 typeof(MappingProfile).Assembly
             });
@@ -73,10 +72,13 @@ namespace Plumsail.NaughtyCat.Web
                     };
                 });
 
+            //services.AddAuthorization(conf =>
+            //{
+                
+            //});
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddCors();
-
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/dist"; });
@@ -116,11 +118,13 @@ namespace Plumsail.NaughtyCat.Web
             }
 
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            app.UseAuthentication();
             app.UseMvc();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+
 
             app.UseSpa(spa =>
             {
