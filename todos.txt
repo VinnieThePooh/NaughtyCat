@@ -16,6 +16,7 @@
 
 8. Add loading spinners everywhere
 9. Think about bundling. Load optimization, etc
+10. Access token refresh flow (kinda like that)
 
 
 n. Get to know fundamentals and concepts about

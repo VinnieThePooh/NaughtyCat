@@ -12,11 +12,11 @@ import Headers from "../helpers/headers";
 export class RabbitService {
   constructor(private httpClient: HttpClient) {}
 
-  getRabbits(listModel: RabbitListModel = null): Observable<Rabbit[]> {
+  getRabbits(listModel: RabbitListModel = null): Observable<any> {
     let params = new HttpParams();
     params.append("listModel", listModel && JSON.stringify(listModel));
 
-    return this.httpClient.get<Rabbit[]>(BaseApiUrl + "rabbits/", {
+    return this.httpClient.get<any>(BaseApiUrl + "rabbits/", {
       headers: Headers.JsonContentType,
       params: params
     });

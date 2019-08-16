@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Plumsail.NaughtyCat.Common.Models;
 using Plumsail.NaughtyCat.Core.Services.Abstract;
 using Plumsail.NaughtyCat.Domain.Models;
 using Plumsail.NaughtyCat.Domain.Models.ListViews;
@@ -25,7 +26,7 @@ namespace Plumsail.NaughtyCat.Web.Controllers
         }
 
         [HttpGet]
-        public Task<List<RabbitDto>> GetRabbits(string listModel)
+        public async Task<PagingModel<RabbitDto>> GetRabbits(string listModel)
         {
             RabbitListModel model = null;
             if (!string.IsNullOrEmpty(listModel))
@@ -33,7 +34,14 @@ namespace Plumsail.NaughtyCat.Web.Controllers
                 //todo: replace in .net core 3
                 model = JsonConvert.DeserializeObject<RabbitListModel>(listModel);
             }
-            return _rabbitsService.GetByCondition(model?.Filter, model?.PageNumber, model?.PageSize);
+
+            var pNumber = model?.PageNumber ?? 1;
+
+            //todo: set default pagesize in config
+            int pSize = model?.PageSize ?? 10;
+
+            var rabbits = await _rabbitsService.GetByCondition(model?.Filter, pNumber, pSize);
+            return new PagingModel<RabbitDto>(rabbits.Count, pSize) {PageData = rabbits};
         }
     }
 }

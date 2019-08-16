@@ -48,14 +48,10 @@ namespace Plumsail.NaughtyCat.Core.Services.Abstract
             return data.Select(x => Mapper.Map<TDto>(x)).ToList();
         }
 
-        public async Task<List<TDto>> GetByCondition<TFilter>(TFilter filter, int? pageNumber, int? pageSize)
+        public async Task<List<TDto>> GetByCondition<TFilter>(TFilter filter, int pageNumber, int pageSize)
             where TFilter : IFilterMarker
         {
-            var pNumber = pageNumber ?? 1;
-
-            //todo: set default pagesize in config
-            int pSize = pageSize ?? 10;
-            var data = await DataProvider.GetByCondition(GenerateExpression(filter), pNumber, pSize);
+            var data = await DataProvider.GetByCondition(GenerateExpression(filter), pageNumber, pageSize);
             return data.Select(x => Mapper.Map<TDto>(x)).ToList();
         }
 

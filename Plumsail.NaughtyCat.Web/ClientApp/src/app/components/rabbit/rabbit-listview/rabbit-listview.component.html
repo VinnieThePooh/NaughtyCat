@@ -1,9 +1,18 @@
 <div class="content-wrapper">
-  <button mat-raised-button (click)="addNewRabbit()">
-    Invite new Rabbit to Party
-  </button>
+  <div class="t-header" *ngIf="!isDataLoading && hasRabbits">
+    <button mat-raised-button (click)="addNewRabbit()">
+      Invite new Rabbit to Party
+    </button>
+    <div class="flex-item"></div>
+    <mat-paginator
+      (page)="getPageData($event)"
+      [length]="totalRecordsCount"
+      [pageSize]="pageSize"
+    ></mat-paginator>
+    <span class="clear"></span>
+  </div>
   <table
-    *ngIf="hasRabbits"
+    *ngIf="hasRabbits && !isDataLoading"
     mat-table
     [dataSource]="rabbitsDataSource"
     class="mat-elevation-z8"
@@ -41,5 +50,5 @@
     <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
   </table>
 
-  <h5 *ngIf="!hasRabbits">No rabbits available</h5>
+  <h5 *ngIf="!hasRabbits && !isDataLoading">No rabbits available</h5>
 </div>

@@ -21,4 +21,23 @@ th p {
 
 button {
   margin: 16px 0;
+  align-self: flex-start;
+}
+
+.mat-paginator {
+  align-self: flex-end;
+  margin-bottom: 16px;
+  margin-right: -20px;
+  height: 45px;
+}
+
+.flex-item {
+  flex-grow: 200;
+}
+
+.t-header {
+  width: 1000px;
+  /* border: 1px solid red; */
+  display: flex;
+  /* justify-content: flex-end; */
 }
