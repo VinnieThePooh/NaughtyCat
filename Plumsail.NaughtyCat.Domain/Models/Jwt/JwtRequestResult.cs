@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Plumsail.NaughtyCat.Domain.WebDto;
 
-namespace Plumsail.NaughtyCat.Web.Dto
+namespace Plumsail.NaughtyCat.Domain.Models.Jwt
 {
-    public class LoginResultDto
+    public class JwtRequestResult
     {
         public bool Succeeded { get; set; }
 

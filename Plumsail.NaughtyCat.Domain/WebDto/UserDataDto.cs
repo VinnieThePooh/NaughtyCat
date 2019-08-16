@@ -1,4 +1,4 @@
-﻿namespace Plumsail.NaughtyCat.Web.Dto
+﻿namespace Plumsail.NaughtyCat.Domain.WebDto
 {
     public class UserDataDto
     {

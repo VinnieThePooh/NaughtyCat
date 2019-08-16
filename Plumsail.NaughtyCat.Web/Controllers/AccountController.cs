@@ -1,77 +1,41 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
+using Plumsail.NaughtyCat.Core.Services.Abstract;
 using Plumsail.NaughtyCat.Domain.Models;
-using Plumsail.NaughtyCat.Web.Dto;
+using Plumsail.NaughtyCat.Domain.Models.Jwt;
 
 namespace Plumsail.NaughtyCat.Web.Controllers
 {
+    //todo: refactor
     [Route("api/[controller]")]
     [ApiController]
     public class AccountController : ControllerBase
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IAuthService _authService;
 
         public AccountController(SignInManager<ApplicationUser> signInManager,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager, IAuthService authService)
         {
             _signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
+            _authService = authService ?? throw new ArgumentNullException(nameof(authService));
         }
 
 
         [HttpPost, Route("login")]
-        public async Task<IActionResult> Login(LoginDto viewModel)
+        public async Task<IActionResult> Login(JwtTokenRequest request)
         {
-            if (viewModel == null)
+            if (request == null)
             {
                 return BadRequest("Invalid client request");
             }
 
-            var loginResult = new LoginResultDto()
-            {
-                Succeeded = false
-            };
-
-
-            var user = await _userManager.FindByEmailAsync(viewModel.Email);
-
-            if (user == null)
-            {
-                loginResult.UserData = null;
-                return Ok(loginResult);
-            }
-
-            var result = await _signInManager.CheckPasswordSignInAsync(user, viewModel.Password, false);
-            if (!result.Succeeded)
-            {
-                loginResult.UserData = null;
-                return Ok(loginResult);
-            }
-
-            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("ncatsecretKey@567"));
-            var signingCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
-
-            var jwt = new JwtSecurityToken(
-                issuer: "https://localhost:44388",
-                audience: "https://localhost:44388",
-                claims: new List<Claim>(),
-                expires: DateTime.Now.AddMinutes(5),
-                signingCredentials: signingCredentials);
-
-            loginResult.Succeeded = true;
-            loginResult.UserData.Id = user.Id;
-            loginResult.UserData.Name = user.UserName;
-            loginResult.Token = new JwtSecurityTokenHandler().WriteToken(jwt);
-
-            return Ok(loginResult);
+            var rResult = await _authService.IsAuthenticated(request);
+            return Ok(rResult);
         }
     }
 }

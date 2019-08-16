@@ -20,6 +20,7 @@ using Plumsail.NaughtyCat.Core.Mapping;
 using Plumsail.NaughtyCat.DataAccess;
 using Plumsail.NaughtyCat.Domain.Enums;
 using Plumsail.NaughtyCat.Domain.Models;
+using Plumsail.NaughtyCat.Domain.Models.Jwt;
 
 namespace Plumsail.NaughtyCat.Web
 {
@@ -35,6 +36,8 @@ namespace Plumsail.NaughtyCat.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public async void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton(Configuration);
+
             services.AddAutoMapper(new Assembly[]
             {
                 typeof(MappingProfile).Assembly
@@ -43,51 +46,46 @@ namespace Plumsail.NaughtyCat.Web
             services.AddDbContext<NaughtyCatDbContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-                options.UseOpenIddict<int>();
             });
 
             // identity services
             services.AddIdentity<ApplicationUser, ApplicationRole>()
                 .AddEntityFrameworkStores<NaughtyCatDbContext>()
                 .AddDefaultTokenProviders();
-            
+
+            var token = Configuration.GetSection("TokenManagement").Get<JwtTokenModel>();
 
             // replace with OpenIddict?
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
+                    options.RequireHttpsMetadata = false;
+                    options.SaveToken = true;
                     options.TokenValidationParameters = new TokenValidationParameters()
                     {
-                        ValidateIssuer = true,
-                        ValidateAudience = true,
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
                         ValidateLifetime = true,
                         ValidateIssuerSigningKey = true,
-                        ValidIssuer = "https://localhost:44388",
-                        ValidAudience = "https://localhost:44388",
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("ncatsecretKey@567"))
+                        ValidIssuer = token.Issuer,
+                        ValidAudience = token.Audience,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(token.Secret))
                     };
                 });
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddCors(opt =>
-            {
-                // todo: can be simplified probably
-                opt.AddPolicy("EnableCORS",
-                    builder =>
-                    {
-                        builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials().Build();
-                    });
-            });
+            services.AddCors();
 
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/dist"; });
 
             new DataAccessRegistrator().RegisterServices(services);
-            new AppServicesRegistrator().RegisterServices(services);
+            new AppServicesRegistrator(Configuration).RegisterServices(services);
 
 
+            // seeding data
             var scopeFactory = services.BuildServiceProvider().GetRequiredService<IServiceScopeFactory>();
             using (var scope = scopeFactory.CreateScope())
             {
@@ -116,9 +114,8 @@ namespace Plumsail.NaughtyCat.Web
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            
-            app.UseCors("EnableCORS");
-            app.UseAuthentication();
+
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseMvc();
 
             app.UseHttpsRedirection();
