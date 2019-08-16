@@ -1,29 +1,45 @@
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-  <ng-container matColumnDef="id">
-    <th mat-header-cell *matHeaderCellDef>Id</th>
-    <td met-cell *matCellDef="let element">{{ element.id }}</td>
-  </ng-container>
-  <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef>Name</th>
-    <td met-cell *matCellDef="let element">{{ element.name }}</td>
-  </ng-container>
-  <ng-container matColumnDef="age">
-    <th mat-header-cell *matHeaderCellDef>Age</th>
-    <td met-cell *matCellDef="let element">{{ element.age }}</td>
-  </ng-container>
-  <ng-container matColumnDef="color">
-    <th mat-header-cell *matHeaderCellDef>Color</th>
-    <td met-cell *matCellDef="let element">{{ element.color }}</td>
-  </ng-container>
-  <ng-container matColumnDef="createDate">
-    <th mat-header-cell *matHeaderCellDef>CreateDate</th>
-    <td met-cell *matCellDef="let element">{{ element.createDate }}</td>
-  </ng-container>
-  <ng-container matColumnDef="updateDate">
-    <th mat-header-cell *matHeaderCellDef>UpdateDate</th>
-    <td met-cell *matCellDef="let element">{{ element.updateDate }}</td>
-  </ng-container>
+<div class="content-wrapper">
+  <button mat-raised-button (click)="addNewRabbit()">
+    Invite new Rabbit to Party
+  </button>
+  <table
+    *ngIf="hasRabbits"
+    mat-table
+    [dataSource]="rabbitsDataSource"
+    class="mat-elevation-z8"
+  >
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef><p>Id</p></th>
+      <td met-cell *matCellDef="let element">{{ element.id }}</td>
+    </ng-container>
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td met-cell *matCellDef="let element">{{ element.name }}</td>
+    </ng-container>
+    <ng-container matColumnDef="age">
+      <th mat-header-cell *matHeaderCellDef><p>Age</p></th>
+      <td met-cell *matCellDef="let element">{{ element.age }}</td>
+    </ng-container>
+    <ng-container matColumnDef="color">
+      <th mat-header-cell *matHeaderCellDef><p>Color</p></th>
+      <td met-cell *matCellDef="let element">{{ element.color }}</td>
+    </ng-container>
+    <ng-container matColumnDef="createDate">
+      <th mat-header-cell *matHeaderCellDef><p>CreateDate</p></th>
+      <td met-cell *matCellDef="let element">
+        {{ formatDate(element.createDate) }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="updateDate">
+      <th mat-header-cell *matHeaderCellDef><p>UpdateDate</p></th>
+      <td met-cell *matCellDef="let element">
+        {{ formatDate(element.updateDate) }}
+      </td>
+    </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-  <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
-</table>
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+    <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
+  </table>
+
+  <h5 *ngIf="!hasRabbits">No rabbits available</h5>
+</div>

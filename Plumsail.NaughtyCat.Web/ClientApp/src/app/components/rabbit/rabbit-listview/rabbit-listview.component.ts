@@ -11,7 +11,9 @@ import { Rabbit } from "src/app/models/rabbit";
 })
 export class RabbitListviewComponent implements OnInit {
   rabbitsDataSource: Rabbit[];
+
   columnsToDisplay: Array<string> = [
+    // "id",
     "name",
     "age",
     "color",
@@ -20,6 +22,10 @@ export class RabbitListviewComponent implements OnInit {
   ];
 
   constructor(private rabbitService: RabbitService) {}
+
+  get hasRabbits() {
+    return this.rabbitsDataSource && this.rabbitsDataSource.length;
+  }
 
   ngOnInit() {
     this.rabbitService.getRabbits().subscribe(
@@ -30,5 +36,16 @@ export class RabbitListviewComponent implements OnInit {
         throw e;
       }
     );
+  }
+
+  addNewRabbit() {
+    console.log("Invited new rabbit");
+  }
+
+  formatDate(date?: string): string {
+    var parsedDate = Date.parse(date);
+    return !Number.isNaN(parsedDate)
+      ? new Date(parsedDate).toLocaleDateString("ru-RU")
+      : "N/A";
   }
 }

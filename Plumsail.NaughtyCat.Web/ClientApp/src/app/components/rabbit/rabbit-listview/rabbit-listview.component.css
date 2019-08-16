@@ -1,0 +1,24 @@
+h5 {
+  text-align: left;
+}
+
+table {
+  width: auto;
+}
+
+td,
+th.mat-header-cell {
+  padding: 7px;
+  text-align: center;
+  vertical-align: middle;
+  width: 200px;
+}
+
+th p {
+  text-align: center;
+  margin: 0 auto;
+}
+
+button {
+  margin: 16px 0;
+}

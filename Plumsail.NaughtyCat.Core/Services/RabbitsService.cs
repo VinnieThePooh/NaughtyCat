@@ -15,8 +15,11 @@ namespace Plumsail.NaughtyCat.Core.Services
         {
         }
 
-        protected override Expression<Func<Rabbit, bool>> GenerateExpression<TFilter>(TFilter filter)
+        protected override Expression<Func<Rabbit, bool>> GenerateExpression<RabbitListViewModelFilter>(RabbitListViewModelFilter filter)
         {
+            if (filter == null)
+                return null;
+
 
             return null;
         }

@@ -11,6 +11,8 @@ namespace Plumsail.NaughtyCat.Domain.WebDto
 
         public string Color { get; set; }
 
+        public int Age { get; set; }
+
         public DateTime CreateDate { get; set; }
 
         public DateTime UpdateDate { get; set; }
