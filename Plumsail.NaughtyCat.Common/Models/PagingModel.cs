@@ -12,6 +12,8 @@ namespace Plumsail.NaughtyCat.Common.Models
         {
            ValidateTotalRecordsCount(totalRecordsCount);
            ValidatePageSize(pageSize);
+           _totalRecordsCount = totalRecordsCount;
+           _pageSize = pageSize;
            ChangeTotalPagesCount(totalRecordsCount, pageSize);
         }
 
