@@ -4,7 +4,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Plumsail.NaughtyCat.Common.Interfaces;
+using Plumsail.NaughtyCat.Common.Models;
 using Plumsail.NaughtyCat.DataAccess.Providers.Abstract;
 
 namespace Plumsail.NaughtyCat.Core.Services.Abstract
@@ -42,17 +44,32 @@ namespace Plumsail.NaughtyCat.Core.Services.Abstract
 
         public virtual Task Delete(int key) => DataProvider.Delete(key);
 
-        public async Task<List<TDto>> GetByCondition<TFilter>(TFilter filter) where TFilter : IFilterMarker
+        // get paging model
+        public async Task<PagingModel<TDto>> GetByCondition<TFilter>(TFilter filter, int pageNumber, int pageSize,
+            Expression<Func<TEntity, object>> ordering = null) where TFilter : IFilterMarker
         {
-            var data = await DataProvider.GetByCondition(GenerateExpression(filter));
-            return data.Select(x => Mapper.Map<TDto>(x)).ToList();
-        }
+            if (pageNumber < 1)
+                throw new ArgumentException(nameof(pageNumber));
 
-        public async Task<List<TDto>> GetByCondition<TFilter>(TFilter filter, int pageNumber, int pageSize)
-            where TFilter : IFilterMarker
-        {
-            var data = await DataProvider.GetByCondition(GenerateExpression(filter), pageNumber, pageSize);
-            return data.Select(x => Mapper.Map<TDto>(x)).ToList();
+            if (pageSize < 0)
+                throw new ArgumentException(nameof(pageSize));
+
+            var data = await DataProvider.GetByCondition(GenerateExpression(filter), ordering);
+
+            var count = await data.CountAsync();
+
+            if (pageSize == 0)
+            {
+                return new PagingModel<TDto>(count, count, 1)
+                {
+                    PageData = data.Skip(0).Take(count).Select(x => Mapper.Map<TDto>(x)).ToArray(),
+                };
+            }
+
+            return new PagingModel<TDto>(count, pageSize, pageNumber)
+            {
+                PageData = data.Skip((pageNumber - 1) * pageSize).Take(pageSize).Select((x) => Mapper.Map<TDto>(x)).ToArray()
+            };
         }
 
         protected abstract Expression<Func<TEntity, bool>> GenerateExpression<TFilter>(TFilter filter)

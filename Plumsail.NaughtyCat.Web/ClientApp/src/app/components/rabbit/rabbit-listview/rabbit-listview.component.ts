@@ -11,6 +11,7 @@ import {
 import { RabbitService } from "src/app/services/rabbit.service";
 import { Rabbit } from "src/app/models/rabbit";
 import { PageEvent, MatPaginator } from "@angular/material";
+import { RabbitListModel } from "src/app/models/rabbit-list-model";
 
 @Component({
   selector: "ncat-rabbit-listview",
@@ -22,6 +23,7 @@ export class RabbitListviewComponent implements OnInit {
   totalRecordsCount: number;
   pageSize: number;
   isDataLoading: boolean = true;
+  isPaging: boolean = false;
   pageIndex: number;
 
   columnsToDisplay: Array<string> = [
@@ -91,6 +93,24 @@ export class RabbitListviewComponent implements OnInit {
   }
 
   getPageData(pageEvent: PageEvent): void {
-    var pNumber = pageEvent.pageIndex + 1;
+    let listModel: RabbitListModel = {};
+    listModel.pageNumber = pageEvent.pageIndex + 1;
+    listModel.pageSize = pageEvent.pageSize;
+
+    this.isPaging = true;
+    this.rabbitService.getRabbits(listModel).subscribe(
+      r => {
+        this.isPaging = false;
+
+        this.rabbitsDataSource = r.pageData;
+        this.pageSize = r.pageSize;
+        this.totalRecordsCount = r.totalRecordsCount;
+        this.pageIndex = r.pageNumber - 1;
+      },
+      e => {
+        this.isPaging = false;
+        throw e;
+      }
+    );
   }
 }

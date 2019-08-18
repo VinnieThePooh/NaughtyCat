@@ -13,8 +13,8 @@ export class RabbitService {
   constructor(private httpClient: HttpClient) {}
 
   getRabbits(listModel: RabbitListModel = null): Observable<any> {
-    let params = new HttpParams();
-    params.append("listModel", listModel && JSON.stringify(listModel));
+    var jsonModel = listModel && JSON.stringify(listModel);
+    let params = new HttpParams().set("listModel", jsonModel);
 
     return this.httpClient.get<any>(BaseApiUrl + "rabbits/", {
       headers: Headers.JsonContentType,

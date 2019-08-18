@@ -16,8 +16,6 @@ namespace Plumsail.NaughtyCat.DataAccess.Providers.Abstract
 
         Task Delete(TKey key);
 
-        Task<IQueryable<TEntity>> GetByCondition(Expression<Func<TEntity, bool>> filter);
-
-        Task<IQueryable<TEntity>> GetByCondition(Expression<Func<TEntity, bool>> filter, int pageNumber, int pageSize);
+        Task<IOrderedQueryable<TEntity>> GetByCondition(Expression<Func<TEntity, bool>> filter, Expression<Func<TEntity, object>> ordering = null);
     }
 }

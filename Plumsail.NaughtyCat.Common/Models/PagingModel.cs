@@ -17,9 +17,16 @@ namespace Plumsail.NaughtyCat.Common.Models
            ChangeTotalPagesCount(totalRecordsCount, pageSize);
         }
 
+        public PagingModel(int totalRecordsCount, int pageSize, int pageNumber):this(totalRecordsCount, pageSize)
+        {
+            if (pageNumber < 1)
+                throw new ArgumentException(nameof(pageNumber));
+            PageNumber = pageNumber;
+        }
+
         public IEnumerable<T> PageData { get; set; }
 
-        public int PageNumber { get; set; }
+        public int PageNumber { get; }
 
         public int PageSize
         {

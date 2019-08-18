@@ -25,7 +25,7 @@ namespace Plumsail.NaughtyCat.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<PagingModel<RabbitDto>> GetRabbits(string listModel)
+        public async Task<PagingModel<RabbitDto>> GetRabbits([FromQuery] string listModel)
         {
             RabbitListModel model = null;
             if (!string.IsNullOrEmpty(listModel))
@@ -38,9 +38,8 @@ namespace Plumsail.NaughtyCat.Web.Controllers
 
             //todo: set default pagesize in config
             int pSize = model?.PageSize ?? 10;
-
-            var rabbits = await _rabbitsService.GetByCondition(model?.Filter, pNumber, pSize);
-            return new PagingModel<RabbitDto>(rabbits.Count, pSize) {PageData = rabbits};
+            var data =  await _rabbitsService.GetByCondition(model?.Filter, pNumber, pSize);
+            return data;
         }
     }
 }

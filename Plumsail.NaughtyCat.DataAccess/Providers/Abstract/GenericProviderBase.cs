@@ -42,30 +42,19 @@ namespace Plumsail.NaughtyCat.DataAccess.Providers.Abstract
             await _dbContext.SaveChangesAsync();
         }
 
-        public virtual Task<IQueryable<TEntity>> GetByCondition(Expression<Func<TEntity, bool>> filter, int pageNumber, int pageSize)
-        {
-            if (pageNumber <= 0)
-                throw new ArgumentException(nameof(pageNumber));
-
-            if (pageSize <= 0)
-                throw new ArgumentException(nameof(pageSize));
-
-            var data = _dataSet.AsQueryable();
-
-            if (filter != null)
-            {
-                data = data.Where(filter).AsQueryable();
-            }
-
-            return Task.FromResult(data.Skip((pageNumber - 1) * pageSize).Take(pageSize));
-        }
-
-        public virtual Task<IQueryable<TEntity>> GetByCondition(Expression<Func<TEntity, bool>> filter)
+        public virtual Task<IOrderedQueryable<TEntity>> GetByCondition(Expression<Func<TEntity, bool>> filter,
+            Expression<Func<TEntity, object>> ordering = null)
         {
             if (filter == null)
-                return Task.FromResult(_dataSet.AsQueryable());
+            {
+                return Task.FromResult(ordering == null
+                    ? _dataSet.AsQueryable().OrderBy(x => 0)
+                    : _dataSet.AsQueryable().OrderBy(ordering));
+            }
 
-            return Task.FromResult(_dataSet.Where(filter).AsQueryable());
+            return Task.FromResult(ordering == null
+                ? _dataSet.AsQueryable().Where(filter).OrderBy(x => 0)
+                : _dataSet.AsQueryable().Where(filter).OrderBy(ordering));
         }
     }
 }

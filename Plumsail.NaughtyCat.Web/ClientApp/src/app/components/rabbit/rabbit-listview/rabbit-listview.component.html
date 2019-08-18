@@ -3,8 +3,10 @@
     <button mat-raised-button (click)="addNewRabbit()">
       Invite new Rabbit to Party
     </button>
-    <div class="flex-item"></div>
-    <mat-paginator></mat-paginator>
+    <div class="flex-item">
+      <span class="page-number">Page number: {{ this.pageIndex + 1 }}</span>
+    </div>
+    <mat-paginator (page)="getPageData($event)"></mat-paginator>
     <span class="clear"></span>
   </div>
   <table
