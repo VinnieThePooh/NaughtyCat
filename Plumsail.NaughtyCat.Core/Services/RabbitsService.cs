@@ -12,7 +12,7 @@ namespace Plumsail.NaughtyCat.Core.Services
 {
     public class RabbitsService: GenericServiceBase<Rabbit, RabbitDto>, IAuditor
     {
-        private IAuditor _auditor;
+        private readonly IAuditor _auditor;
 
         public RabbitsService(IGenericProvider<Rabbit, int> dataProvider, IMapper mapper) : base(dataProvider, mapper)
         {

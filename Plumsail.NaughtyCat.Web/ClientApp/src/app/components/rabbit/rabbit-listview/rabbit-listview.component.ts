@@ -48,7 +48,7 @@ export class RabbitListviewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log("ngOnInit event hook called");
+    // console.log("ngOnInit event hook called");
     this.rabbitService.getRabbits().subscribe(
       r => {
         this.isDataLoading = false;
@@ -99,7 +99,6 @@ export class RabbitListviewComponent implements OnInit {
     this.rabbitService.getRabbits(listModel).subscribe(
       r => {
         this.isPaging = false;
-
         this.rabbitsDataSource = r.pageData;
         this.pageSize = r.pageSize;
         this.totalRecordsCount = r.totalRecordsCount;
