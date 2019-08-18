@@ -46,5 +46,12 @@ namespace Plumsail.NaughtyCat.Web.Controllers
             var data =  await _rabbitsService.GetByCondition(model?.Filter, pNumber, model?.PageSize ?? pSize);
             return data;
         }
+
+        [HttpPost]
+        public async Task<int> AddNewRabbit(RabbitDto rabbit)
+        {
+            var key = await _rabbitsService.Add(rabbit);
+            return key;
+        }
     }
 }

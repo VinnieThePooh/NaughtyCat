@@ -17,8 +17,8 @@ namespace Plumsail.NaughtyCat.Domain.WebDto
 
         public DateTime UpdateDate { get; set; }
 
-        public string Delicacy { get; set; }
+        public int? Delicacy { get; set; }
 
-        public string Priority { get; set; }
+        public int? Priority { get; set; }
     }
 }

@@ -25,7 +25,7 @@
     </ng-container>
     <ng-container matColumnDef="age">
       <th mat-header-cell *matHeaderCellDef><p>Age</p></th>
-      <td met-cell *matCellDef="let element">{{ element.age }}</td>
+      <td met-cell *matCellDef="let element">{{ element.age || "N/A" }}</td>
     </ng-container>
     <ng-container matColumnDef="color">
       <th mat-header-cell *matHeaderCellDef><p>Color</p></th>

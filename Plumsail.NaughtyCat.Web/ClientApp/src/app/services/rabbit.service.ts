@@ -22,7 +22,7 @@ export class RabbitService {
     });
   }
 
-  addNewRabbit(): Observable<any> {
-    return null;
+  addNewRabbit(rabbit: Rabbit): Observable<number> {
+    return this.httpClient.post<number>(BaseApiUrl + "rabbits/", rabbit);
   }
 }

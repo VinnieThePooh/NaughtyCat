@@ -6,3 +6,7 @@ mat-form-field {
   padding-top: 0;
   margin-top: -5px;
 }
+
+.ng-invalid:not(form) {
+  color: #f44336;
+}

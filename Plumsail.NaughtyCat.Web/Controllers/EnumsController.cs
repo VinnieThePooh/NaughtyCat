@@ -26,6 +26,25 @@ namespace Plumsail.NaughtyCat.Web.Controllers
         [HttpGet, Route("delicacies")]
         public List<EnumItemDto> GetDelicacies() => GetEnumValues<DelicacyEnum>();
 
+        //todo: generalize
+        [HttpGet, Route("rabbit-related")]
+        public List<EnumItemContainerDto> GetRabbitEnums()
+        {
+            var list = new List<EnumItemContainerDto>(new[]
+            {
+                new EnumItemContainerDto()
+                {
+                    EnumName = nameof(DelicacyEnum),
+                    Items = GetEnumValues<DelicacyEnum>()
+                },
+                new EnumItemContainerDto()
+                {
+                    EnumName = nameof(PriorityEnum),
+                    Items = GetEnumValues<PriorityEnum>()
+                }
+            });
+            return list;
+        }
 
         #region Implementation details
 

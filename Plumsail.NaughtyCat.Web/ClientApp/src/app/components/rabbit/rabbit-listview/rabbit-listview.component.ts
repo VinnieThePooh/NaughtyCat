@@ -1,9 +1,17 @@
 import { Component, ViewChild, OnInit } from "@angular/core";
 import { RabbitService } from "src/app/services/rabbit.service";
 import { Rabbit } from "src/app/models/rabbit";
-import { PageEvent, MatPaginator, MatDialog } from "@angular/material";
+import {
+  PageEvent,
+  MatPaginator,
+  MatDialog,
+  MatTableDataSource
+} from "@angular/material";
 import { RabbitListModel } from "src/app/models/rabbit-list-model";
 import { RabbitEditComponent } from "../rabbit-edit/rabbit-edit.component";
+import { EnumsService } from "src/app/services/enums.service";
+import { EnumItemDto } from "src/app/models/enum-item-dto";
+import { RabbitEditViewModel } from "src/app/models/rabbit-edit-view-model";
 
 @Component({
   selector: "ncat-rabbit-listview",
@@ -11,7 +19,7 @@ import { RabbitEditComponent } from "../rabbit-edit/rabbit-edit.component";
   styleUrls: ["./rabbit-listview.component.css"]
 })
 export class RabbitListviewComponent implements OnInit {
-  rabbitsDataSource: Rabbit[];
+  rabbitsDataSource: MatTableDataSource<Rabbit>;
   totalRecordsCount: number;
   pageSize: number;
   isDataLoading: boolean = true;
@@ -29,9 +37,12 @@ export class RabbitListviewComponent implements OnInit {
 
   constructor(
     private rabbitService: RabbitService,
+    private enumsService: EnumsService,
     private dialog: MatDialog
   ) {}
 
+  private delicacyEnums: EnumItemDto[] = [];
+  private priorityEnums: EnumItemDto[] = [];
   private paginator: MatPaginator;
 
   @ViewChild(MatPaginator, { static: false }) set content(
@@ -44,16 +55,34 @@ export class RabbitListviewComponent implements OnInit {
   }
 
   get hasRabbits() {
-    return this.rabbitsDataSource && this.rabbitsDataSource.length;
+    return this.rabbitsDataSource && this.rabbitsDataSource.data.length;
   }
 
   ngOnInit(): void {
-    // console.log("ngOnInit event hook called");
+    this.isDataLoading = true;
+
+    this.enumsService.getRabbitRelated().subscribe(
+      r => {
+        r.forEach(r => {
+          if (r.enumName === "DelicacyEnum") {
+            this.delicacyEnums = r.items;
+          }
+
+          if (r.enumName === "PriorityEnum") {
+            this.priorityEnums = r.items;
+          }
+        });
+      },
+      e => {
+        throw e;
+      }
+    );
+
     this.rabbitService.getRabbits().subscribe(
       r => {
         this.isDataLoading = false;
 
-        this.rabbitsDataSource = r.pageData;
+        this.rabbitsDataSource = new MatTableDataSource(r.pageData);
         this.pageSize = r.pageSize;
         this.totalRecordsCount = r.totalRecordsCount;
         this.pageIndex = r.pageNumber - 1;
@@ -74,12 +103,23 @@ export class RabbitListviewComponent implements OnInit {
   }
 
   addNewRabbit() {
+    let viewModel: RabbitEditViewModel = {} as RabbitEditViewModel;
+    viewModel.delicacyEnums = this.delicacyEnums;
+    viewModel.priorityEnums = this.priorityEnums;
+    viewModel.rabbit = {} as Rabbit;
+
     const dialogRef = this.dialog.open(RabbitEditComponent, {
       width: "300px",
-      data: {} as Rabbit
+      data: viewModel
     });
     dialogRef.afterClosed().subscribe(r => {
-      console.log("Dialog was closed");
+      if (r) {
+        this.rabbitsDataSource.data.unshift(r as Rabbit);
+        this.rabbitsDataSource = new MatTableDataSource(
+          this.rabbitsDataSource.data
+        );
+        return;
+      }
     });
   }
 
@@ -99,7 +139,7 @@ export class RabbitListviewComponent implements OnInit {
     this.rabbitService.getRabbits(listModel).subscribe(
       r => {
         this.isPaging = false;
-        this.rabbitsDataSource = r.pageData;
+        this.rabbitsDataSource = new MatTableDataSource(r.pageData);
         this.pageSize = r.pageSize;
         this.totalRecordsCount = r.totalRecordsCount;
         this.pageIndex = r.pageNumber - 1;

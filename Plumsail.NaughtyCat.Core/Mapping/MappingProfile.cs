@@ -13,17 +13,14 @@ namespace Plumsail.NaughtyCat.Core.Mapping
         {
             // todo: simplify
             CreateMap<Rabbit, RabbitDto>().ForMember(x => x.Delicacy,
-                c => c.MapFrom(r =>
-                    r.IdRabbitDelicacy != null
-                        ? ((DelicacyEnum) r.IdRabbitDelicacy).GetEnumDescription()
-                        : StringConstants.NotAvailable))
-            .ForMember(x => x.Priority, c => c.MapFrom(r => r.IdRabbitPriority != null
-                ? ((DelicacyEnum) r.IdRabbitPriority).GetEnumDescription()
-                : StringConstants.NotAvailable));
+                    c => c.MapFrom(r => r.IdRabbitDelicacy))
+                .ForMember(x => x.Priority, c => c.MapFrom(r => r.IdRabbitPriority));
 
             CreateMap<RabbitDto, Rabbit>()
-                .ForMember(x => x.Delicacy, c => c.ConvertUsing(new DelicacyStringToClassConverter()))
-                .ForMember(x => x.Priority, c => c.ConvertUsing(new PriorityStringToClassConverter()));
+                .ForMember(x => x.IdRabbitDelicacy, c => c.MapFrom(x => x.Delicacy))
+                .ForMember(x => x.IdRabbitPriority, c => c.MapFrom(x => x.Priority))
+                .ForMember(x => x.Priority, c => c.Ignore())
+                .ForMember(x => x.Delicacy, c => c.Ignore());
         }
     }
 }
