@@ -4,6 +4,6 @@ export interface Rabbit {
   color: string;
   createDate: Date;
   updateDate: Date;
-  delicacy: string;
-  priority: string;
+  delicacy: number;
+  priority: number;
 }

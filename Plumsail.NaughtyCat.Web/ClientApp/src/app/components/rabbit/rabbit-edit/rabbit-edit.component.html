@@ -1,1 +1,36 @@
-<p>rabbit-edit works!</p>
+<h2 mat-dialog-title>Rabbit: Add new</h2>
+
+<div mat-dialog-content>
+  <form (submit)="okClick($event)">
+    <div>
+      <mat-form-field>
+        <input matInput name="name" [(ngModel)]="rabbit.name" />
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput name="color" [(ngModel)]="rabbit.color" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-select name="delicacy" placeHolder="Rabbit delicacy">
+          <mat-option value="option">Delicacy option</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-select name="delicacy" placeHolder="Rabbit priority">
+          <mat-option value="option">Priority option</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="cancelClick()">Cancel</button>
+  <button mat-button (click)="okClick()" cdkFocusInitial>Ok</button>
+</div>
+
+<!-- id: number;
+  name: string;
+  color: string;
+  createDate: Date;
+  updateDate: Date;
+  delicacy: number;
+  priority: number; -->

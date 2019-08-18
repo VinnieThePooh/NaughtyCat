@@ -13,7 +13,9 @@ import {
   MatListModule,
   MatDividerModule,
   MatTableModule,
-  MatPaginatorModule
+  MatPaginatorModule,
+  MatDialogModule,
+  MatSelectModule
 } from "@angular/material";
 import { RabbitListviewComponent } from "./components/rabbit/rabbit-listview/rabbit-listview.component";
 import { HomeComponent } from "./components/home/home.component";
@@ -52,10 +54,12 @@ import { AuthInterceptor } from "./interceptors/auth-interceptor";
     BrowserAnimationsModule,
     MatButtonModule,
     MatCheckboxModule,
+    MatDialogModule,
     MatFormFieldModule,
     MatPaginatorModule,
     MatDividerModule,
     MatExpansionModule,
+    MatSelectModule,
     MatListModule,
     MatInputModule,
     MatTableModule,
@@ -76,6 +80,7 @@ import { AuthInterceptor } from "./interceptors/auth-interceptor";
       multi: true
     }
   ],
+  entryComponents: [RabbitEditComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

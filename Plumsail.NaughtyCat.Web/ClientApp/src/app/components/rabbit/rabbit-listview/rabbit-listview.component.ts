@@ -1,17 +1,9 @@
-import {
-  Component,
-  ViewChild,
-  AfterViewInit,
-  ElementRef,
-  OnInit,
-  DoCheck,
-  AfterContentChecked,
-  ChangeDetectorRef
-} from "@angular/core";
+import { Component, ViewChild, OnInit } from "@angular/core";
 import { RabbitService } from "src/app/services/rabbit.service";
 import { Rabbit } from "src/app/models/rabbit";
-import { PageEvent, MatPaginator } from "@angular/material";
+import { PageEvent, MatPaginator, MatDialog } from "@angular/material";
 import { RabbitListModel } from "src/app/models/rabbit-list-model";
+import { RabbitEditComponent } from "../rabbit-edit/rabbit-edit.component";
 
 @Component({
   selector: "ncat-rabbit-listview",
@@ -37,7 +29,7 @@ export class RabbitListviewComponent implements OnInit {
 
   constructor(
     private rabbitService: RabbitService,
-    private cdRef: ChangeDetectorRef
+    private dialog: MatDialog
   ) {}
 
   private paginator: MatPaginator;
@@ -82,7 +74,13 @@ export class RabbitListviewComponent implements OnInit {
   }
 
   addNewRabbit() {
-    console.log("Invited new rabbit");
+    const dialogRef = this.dialog.open(RabbitEditComponent, {
+      width: "300px",
+      data: {} as Rabbit
+    });
+    dialogRef.afterClosed().subscribe(r => {
+      console.log("Dialog was closed");
+    });
   }
 
   formatDate(date?: string): string {
