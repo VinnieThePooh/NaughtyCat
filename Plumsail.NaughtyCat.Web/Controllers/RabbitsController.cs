@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Microsoft.Extensions.Configuration;
 using Plumsail.NaughtyCat.Common.Models;
 using Plumsail.NaughtyCat.Core.Services.Abstract;
 using Plumsail.NaughtyCat.Domain.Models;
@@ -18,10 +19,12 @@ namespace Plumsail.NaughtyCat.Web.Controllers
     public class RabbitsController : ControllerBase
     {
         private readonly GenericServiceBase<Rabbit, RabbitDto> _rabbitsService;
+        private readonly IConfiguration _configuration;
 
-        public RabbitsController(GenericServiceBase<Rabbit, RabbitDto> rabbitsService)
+        public RabbitsController(GenericServiceBase<Rabbit, RabbitDto> rabbitsService, IConfiguration configuration)
         {
             _rabbitsService = rabbitsService ?? throw new ArgumentNullException(nameof(rabbitsService));
+            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         }
 
         [HttpGet]
@@ -36,9 +39,11 @@ namespace Plumsail.NaughtyCat.Web.Controllers
 
             var pNumber = model?.PageNumber ?? 1;
 
-            //todo: set default pagesize in config
-            int pSize = model?.PageSize ?? 10;
-            var data =  await _rabbitsService.GetByCondition(model?.Filter, pNumber, pSize);
+            var defaultPageSize = _configuration["PaginationSettings:DefaultPageSize"];
+            if (!int.TryParse(defaultPageSize, out var pSize))
+                pSize = 10;
+
+            var data =  await _rabbitsService.GetByCondition(model?.Filter, pNumber, model?.PageSize ?? pSize);
             return data;
         }
     }

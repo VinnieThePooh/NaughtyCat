@@ -37,10 +37,8 @@ namespace Plumsail.NaughtyCat.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public async void ConfigureServices(IServiceCollection services)
         {
-            services.AddAutoMapper(new[]
-            {
-                typeof(MappingProfile).Assembly
-            });
+            services.AddSingleton(Configuration);
+            services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
             services.AddDbContext<NaughtyCatDbContext>(options =>
             {
@@ -72,10 +70,6 @@ namespace Plumsail.NaughtyCat.Web
                     };
                 });
 
-            //services.AddAuthorization(conf =>
-            //{
-                
-            //});
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddCors();
@@ -85,7 +79,6 @@ namespace Plumsail.NaughtyCat.Web
 
             new DataAccessRegistrator().RegisterServices(services);
             new AppServicesRegistrator(Configuration).RegisterServices(services);
-
 
             // seeding data
             var scopeFactory = services.BuildServiceProvider().GetRequiredService<IServiceScopeFactory>();
