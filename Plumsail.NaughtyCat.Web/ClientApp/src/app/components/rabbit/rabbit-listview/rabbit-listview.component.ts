@@ -5,13 +5,15 @@ import {
   PageEvent,
   MatPaginator,
   MatDialog,
-  MatTableDataSource
+  MatTableDataSource,
+  MatSnackBar
 } from "@angular/material";
 import { RabbitListModel } from "src/app/models/rabbit-list-model";
 import { RabbitEditComponent } from "../rabbit-edit/rabbit-edit.component";
 import { EnumsService } from "src/app/services/enums.service";
 import { EnumItemDto } from "src/app/models/enum-item-dto";
 import { RabbitEditViewModel } from "src/app/models/rabbit-edit-view-model";
+import { Directionality } from "@angular/cdk/bidi";
 
 @Component({
   selector: "ncat-rabbit-listview",
@@ -38,7 +40,8 @@ export class RabbitListviewComponent implements OnInit {
   constructor(
     private rabbitService: RabbitService,
     private enumsService: EnumsService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private matSnackBar: MatSnackBar
   ) {}
 
   private delicacyEnums: EnumItemDto[] = [];
@@ -112,12 +115,18 @@ export class RabbitListviewComponent implements OnInit {
       width: "300px",
       data: viewModel
     });
+
     dialogRef.afterClosed().subscribe(r => {
       if (r) {
         this.rabbitsDataSource.data.unshift(r as Rabbit);
         this.rabbitsDataSource = new MatTableDataSource(
           this.rabbitsDataSource.data
         );
+        this.matSnackBar.open("New rabbit added successfully", null, {
+          // duration: 3000,
+          horizontalPosition: "end",
+          verticalPosition: "top"
+        });
         return;
       }
     });

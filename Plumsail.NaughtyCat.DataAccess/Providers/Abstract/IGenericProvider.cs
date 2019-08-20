@@ -3,6 +3,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Plumsail.NaughtyCat.Common.Interfaces;
+using Plumsail.NaughtyCat.Common.Models;
 
 namespace Plumsail.NaughtyCat.DataAccess.Providers.Abstract
 {
@@ -16,6 +17,6 @@ namespace Plumsail.NaughtyCat.DataAccess.Providers.Abstract
 
         Task Delete(TKey key);
 
-        Task<IOrderedQueryable<TEntity>> GetByCondition(Expression<Func<TEntity, bool>> filter, Expression<Func<TEntity, object>> ordering = null);
+        Task<IOrderedQueryable<TEntity>> GetByCondition(Expression<Func<TEntity, bool>> filter, OrderingOptions<TEntity, TKey> orderingOptions = null);
     }
 }

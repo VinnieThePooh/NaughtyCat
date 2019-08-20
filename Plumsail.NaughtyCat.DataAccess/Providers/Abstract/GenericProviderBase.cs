@@ -3,7 +3,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Plumsail.NaughtyCat.Common.Enums;
 using Plumsail.NaughtyCat.Common.Interfaces;
+using Plumsail.NaughtyCat.Common.Models;
 
 namespace Plumsail.NaughtyCat.DataAccess.Providers.Abstract
 {
@@ -43,18 +45,25 @@ namespace Plumsail.NaughtyCat.DataAccess.Providers.Abstract
         }
 
         public virtual Task<IOrderedQueryable<TEntity>> GetByCondition(Expression<Func<TEntity, bool>> filter,
-            Expression<Func<TEntity, object>> ordering = null)
+            OrderingOptions<TEntity, int> orderingOptions = null)
         {
+	        var ordOptions = orderingOptions ?? OrderingOptions<TEntity, int>.Create();
+
             if (filter == null)
             {
-                return Task.FromResult(ordering == null
-                    ? _dataSet.AsQueryable().OrderBy(x => 0)
-                    : _dataSet.AsQueryable().OrderBy(ordering));
+	            if (ordOptions.Direction == OrderingDirection.Ascend)
+	            {
+		            return Task.FromResult(_dataSet.AsQueryable().OrderBy(ordOptions.Order));
+				}
+	            return Task.FromResult(_dataSet.AsQueryable().OrderByDescending(ordOptions.Order));
+			}
+
+            if (ordOptions.Direction == OrderingDirection.Ascend)
+            {
+	            return Task.FromResult(_dataSet.AsQueryable().Where(filter).OrderBy(ordOptions.Order));
             }
 
-            return Task.FromResult(ordering == null
-                ? _dataSet.AsQueryable().Where(filter).OrderBy(x => 0)
-                : _dataSet.AsQueryable().Where(filter).OrderBy(ordering));
+            return Task.FromResult(_dataSet.AsQueryable().Where(filter).OrderByDescending(ordOptions.Order));
         }
     }
 }

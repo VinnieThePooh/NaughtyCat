@@ -15,7 +15,9 @@ import {
   MatTableModule,
   MatPaginatorModule,
   MatDialogModule,
-  MatSelectModule
+  MatSelectModule,
+  MatSnackBarModule,
+  MatSnackBar
 } from "@angular/material";
 import { RabbitListviewComponent } from "./components/rabbit/rabbit-listview/rabbit-listview.component";
 import { HomeComponent } from "./components/home/home.component";
@@ -56,6 +58,7 @@ import { AuthInterceptor } from "./interceptors/auth-interceptor";
     MatCheckboxModule,
     MatDialogModule,
     MatFormFieldModule,
+    MatSnackBarModule,
     MatPaginatorModule,
     MatDividerModule,
     MatExpansionModule,
@@ -78,7 +81,8 @@ import { AuthInterceptor } from "./interceptors/auth-interceptor";
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
-    }
+    },
+    MatSnackBar
   ],
   entryComponents: [RabbitEditComponent],
   bootstrap: [AppComponent]

@@ -46,7 +46,7 @@ namespace Plumsail.NaughtyCat.Core.Services.Abstract
 
         // get paging model
         public async Task<PagingModel<TDto>> GetByCondition<TFilter>(TFilter filter, int pageNumber, int pageSize,
-            Expression<Func<TEntity, object>> ordering = null) where TFilter : IFilterMarker
+            OrderingOptions<TEntity, int> orderingOptions = null) where TFilter : IFilterMarker
         {
             if (pageNumber < 1)
                 throw new ArgumentException(nameof(pageNumber));
@@ -54,7 +54,7 @@ namespace Plumsail.NaughtyCat.Core.Services.Abstract
             if (pageSize < 0)
                 throw new ArgumentException(nameof(pageSize));
 
-            var data = await DataProvider.GetByCondition(GenerateExpression(filter), ordering);
+            var data = await DataProvider.GetByCondition(GenerateExpression(filter), orderingOptions);
 
             var count = await data.CountAsync();
 

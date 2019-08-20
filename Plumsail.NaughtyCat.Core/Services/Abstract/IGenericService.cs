@@ -18,6 +18,6 @@ namespace Plumsail.NaughtyCat.Core.Services.Abstract
 
         Task Delete(TKey key);
 
-        Task<PagingModel<TDto>> GetByCondition<TFilter>(TFilter filter, int pageNumber, int pageSize, Expression<Func<TEntity, object>> ordering = null) where TFilter : IFilterMarker;
+        Task<PagingModel<TDto>> GetByCondition<TFilter>(TFilter filter, int pageNumber, int pageSize, OrderingOptions<TEntity, TKey> orderingOptions = null) where TFilter : IFilterMarker;
     }
 }
