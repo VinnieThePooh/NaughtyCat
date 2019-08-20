@@ -11,9 +11,9 @@ namespace Plumsail.NaughtyCat.Core
 {
     public class AppServicesRegistrator: IServicesRegistrator
     {
-        private readonly IConfiguration _config;
+        private readonly Microsoft.Extensions.Configuration.IConfiguration _config;
 
-        public AppServicesRegistrator(IConfiguration config)
+        public AppServicesRegistrator(Microsoft.Extensions.Configuration.IConfiguration config)
         {
             _config = config;
         }

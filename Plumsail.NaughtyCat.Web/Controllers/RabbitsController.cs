@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using Plumsail.NaughtyCat.Common.Models;
 using Plumsail.NaughtyCat.Core.Services.Abstract;
 using Plumsail.NaughtyCat.Domain.Models;
@@ -14,7 +13,7 @@ using Plumsail.NaughtyCat.Domain.WebDto;
 
 namespace Plumsail.NaughtyCat.Web.Controllers
 {
-    [Route("api/[controller]")]
+	[Route("api/[controller]")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
     public class RabbitsController : ControllerBase

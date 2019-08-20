@@ -123,9 +123,10 @@ export class RabbitListviewComponent implements OnInit {
           this.rabbitsDataSource.data
         );
         this.matSnackBar.open("New rabbit added successfully", null, {
-          // duration: 3000,
+          duration: 3000,
           horizontalPosition: "end",
-          verticalPosition: "top"
+          verticalPosition: "top",
+          panelClass: "sn-bar-container"
         });
         return;
       }
