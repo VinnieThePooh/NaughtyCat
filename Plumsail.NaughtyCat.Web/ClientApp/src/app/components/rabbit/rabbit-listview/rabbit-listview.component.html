@@ -1,5 +1,13 @@
-<div class="content-wrapper">
-  <div class="t-header" *ngIf="!isDataLoading && hasRabbits">
+<div class="content-wrapper" *ngIf="!isDataLoading && hasRabbits">
+  <h4>Rabbit filter:</h4>
+  <div class="t-filter">
+    <ncat-rabbit-filter
+      [delicacyEnums]="delicacyEnums"
+      [priorityEnums]="priorityEnums"
+      (filterApplied)="onFilterApplied($event)"
+    ></ncat-rabbit-filter>
+  </div>
+  <div class="t-header">
     <button mat-raised-button (click)="addNewRabbit()">
       Invite new Rabbit to Party
     </button>

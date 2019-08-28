@@ -14,6 +14,8 @@ import { EnumsService } from "src/app/services/enums.service";
 import { EnumItemDto } from "src/app/models/enum-item-dto";
 import { RabbitEditViewModel } from "src/app/models/rabbit-edit-view-model";
 import { Directionality } from "@angular/cdk/bidi";
+import { RabbitListModelFilter } from "src/app/models/rabbit-listmodel-filter";
+import { RabbitFilterComponent } from "../../filters/rabbit-filter.component";
 
 @Component({
   selector: "ncat-rabbit-listview",
@@ -27,6 +29,7 @@ export class RabbitListviewComponent implements OnInit {
   isDataLoading: boolean = true;
   isPaging: boolean = false;
   pageIndex: number;
+  filter: RabbitListModelFilter;
 
   columnsToDisplay: Array<string> = [
     // "id",
@@ -56,6 +59,9 @@ export class RabbitListviewComponent implements OnInit {
       this.updatePaginator(this.paginator);
     }
   }
+
+  @ViewChild(RabbitFilterComponent, { static: false })
+  filterComponent: RabbitFilterComponent;
 
   get hasRabbits() {
     return this.rabbitsDataSource && this.rabbitsDataSource.data.length;
@@ -159,5 +165,9 @@ export class RabbitListviewComponent implements OnInit {
         throw e;
       }
     );
+  }
+
+  onFilterApplied(filter: RabbitListModelFilter) {
+    console.log("Filter appleid: ", JSON.stringify(filter));
   }
 }

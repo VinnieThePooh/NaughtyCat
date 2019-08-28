@@ -34,6 +34,7 @@ import { RabbitEditComponent } from "./components/rabbit/rabbit-edit/rabbit-edit
 import { RabbitService } from "./services/rabbit.service";
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { AuthInterceptor } from "./interceptors/auth-interceptor";
+import { RabbitFilterComponent } from './components/filters/rabbit-filter.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { AuthInterceptor } from "./interceptors/auth-interceptor";
     BottomComponent,
     RegisterComponent,
     RabbitMainComponent,
-    RabbitEditComponent
+    RabbitEditComponent,
+    RabbitFilterComponent
   ],
   imports: [
     HttpClientModule,

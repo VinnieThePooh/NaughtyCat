@@ -32,7 +32,7 @@ button {
 }
 
 .flex-item {
-  flex-grow: 200;
+  width: 120px;
   position: relative;
 }
 
@@ -55,4 +55,17 @@ button {
 
 ::ng-deep snack-bar-container.sn-bar-container {
   margin-top: 120px;
+}
+
+.content-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+::ng-deep .rabbit-filter {
+  width: 700px;
+}
+
+::ng-deep .rabbit-filter .mat-form-field {
+  margin-right: 20px;
 }

@@ -2,10 +2,10 @@ export interface RabbitListModelFilter {
   name?: string;
   age?: string;
   color?: string;
-  delicacy?: number;
-  priority?: number;
-  createDateFrom?: Date;
-  createDateTo?: Date;
-  updateDateFrom?: Date;
-  updateDateTo?: Date;
+  delicacy?: number | null;
+  priority?: number | null;
+  createDateFrom?: Date | null;
+  createDateTo?: Date | null;
+  updateDateFrom?: Date | null;
+  updateDateTo?: Date | null;
 }
