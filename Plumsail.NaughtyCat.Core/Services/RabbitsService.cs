@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -6,11 +7,12 @@ using Plumsail.NaughtyCat.Common.Interfaces;
 using Plumsail.NaughtyCat.Core.Services.Abstract;
 using Plumsail.NaughtyCat.DataAccess.Providers.Abstract;
 using Plumsail.NaughtyCat.Domain.Models;
+using Plumsail.NaughtyCat.Domain.Models.ListViews;
 using Plumsail.NaughtyCat.Domain.WebDto;
 
 namespace Plumsail.NaughtyCat.Core.Services
 {
-    public class RabbitsService: GenericServiceBase<Rabbit, RabbitDto>, IAuditor
+    public class RabbitsService: GenericServiceBase<Rabbit, RabbitDto, RabbitListModelFilter>, IAuditor
     {
         private readonly IAuditor _auditor;
 
@@ -19,13 +21,23 @@ namespace Plumsail.NaughtyCat.Core.Services
             _auditor = this;
         }
 
-        protected override Expression<Func<Rabbit, bool>> GenerateExpression<RabbitListViewModelFilter>(RabbitListViewModelFilter filter)
+        protected override Expression<Func<Rabbit, bool>> GenerateExpression(RabbitListModelFilter filter)
         {
             if (filter == null)
                 return null;
 
+            // todo: generate expression manually
+			Func<Rabbit, bool> filterFunction = (r) => (string.IsNullOrEmpty(filter.Name) ||
+			                                            filter.Name.Contains(r.Name, StringComparison.InvariantCultureIgnoreCase)) &&
+			                                           (string.IsNullOrEmpty(filter.Color) || filter.Color.Contains(r.Color, StringComparison.InvariantCultureIgnoreCase)) &&
+			                                           (filter.Delicacy == null || filter.Delicacy.Equals(r.IdRabbitDelicacy)) &&
+			                                           (filter.Priority == null || filter.Priority.Equals(r.IdRabbitPriority)) &&
+			                                           (filter.CreateDateFrom == null || r.CreateDate >= filter.CreateDateFrom) &&
+			                                           (filter.CreateDateTo == null || r.CreateDate <= filter.CreateDateTo) && 
+			                                           (filter.UpdateDateFrom == null || r.UpdateDate >= filter.UpdateDateFrom) &&
+			                                           (filter.UpdateDateTo == null || r.UpdateDate <= filter.UpdateDateTo);
 
-            return null;
+			return Expression.Lambda<Func<Rabbit, bool>>(Expression.Call(filterFunction.Method));
         }
 
         public override Task<int> Add(RabbitDto dto)

@@ -18,10 +18,10 @@ namespace Plumsail.NaughtyCat.Web.Controllers
     [ApiController]
     public class RabbitsController : ControllerBase
     {
-        private readonly GenericServiceBase<Rabbit, RabbitDto> _rabbitsService;
+        private readonly GenericServiceBase<Rabbit, RabbitDto, RabbitListModelFilter> _rabbitsService;
         private readonly IConfiguration _configuration;
 
-        public RabbitsController(GenericServiceBase<Rabbit, RabbitDto> rabbitsService, IConfiguration configuration)
+        public RabbitsController(GenericServiceBase<Rabbit, RabbitDto, RabbitListModelFilter> rabbitsService, IConfiguration configuration)
         {
             _rabbitsService = rabbitsService ?? throw new ArgumentNullException(nameof(rabbitsService));
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));

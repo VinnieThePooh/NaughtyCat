@@ -11,9 +11,10 @@ using Plumsail.NaughtyCat.DataAccess.Providers.Abstract;
 
 namespace Plumsail.NaughtyCat.Core.Services.Abstract
 {
-    public abstract class GenericServiceBase<TEntity, TDto> : IGenericService<TEntity, TDto, int>
+    public abstract class GenericServiceBase<TEntity, TDto, TFilter> : IGenericService<TEntity, TDto, TFilter, int>
         where TEntity : IHasKey<int>, new()
         where TDto : IDtoMarker
+		where TFilter: IFilterMarker
     {
         protected readonly IGenericProvider<TEntity, int> DataProvider;
         protected readonly IMapper Mapper;
@@ -45,8 +46,8 @@ namespace Plumsail.NaughtyCat.Core.Services.Abstract
         public virtual Task Delete(int key) => DataProvider.Delete(key);
 
         // get paging model
-        public async Task<PagingModel<TDto>> GetByCondition<TFilter>(TFilter filter, int pageNumber, int pageSize,
-            OrderingOptions<TEntity, int> orderingOptions = null) where TFilter : IFilterMarker
+        public async Task<PagingModel<TDto>> GetByCondition(TFilter filter, int pageNumber, int pageSize,
+            OrderingOptions<TEntity, int> orderingOptions = null)
         {
             if (pageNumber < 1)
                 throw new ArgumentException(nameof(pageNumber));
@@ -72,7 +73,6 @@ namespace Plumsail.NaughtyCat.Core.Services.Abstract
             };
         }
 
-        protected abstract Expression<Func<TEntity, bool>> GenerateExpression<TFilter>(TFilter filter)
-            where TFilter : IFilterMarker;
+        protected abstract Expression<Func<TEntity, bool>> GenerateExpression(TFilter filter);
     }
 }

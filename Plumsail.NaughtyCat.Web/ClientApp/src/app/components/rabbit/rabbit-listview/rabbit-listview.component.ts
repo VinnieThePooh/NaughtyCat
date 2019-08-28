@@ -150,24 +150,34 @@ export class RabbitListviewComponent implements OnInit {
     let listModel: RabbitListModel = {};
     listModel.pageNumber = pageEvent.pageIndex + 1;
     listModel.pageSize = pageEvent.pageSize;
+    listModel.filter = this.filter;
+    this.getRabbits(listModel);
+  }
 
+  onFilterApplied(filter: RabbitListModelFilter) {
+    console.log("Filter appleid: ", JSON.stringify(filter));
+
+    let listModel: RabbitListModel = {};
+    listModel.pageSize = this.pageSize;
+    listModel.pageNumber = 1;
+    this.filter = listModel.filter = filter;
+    this.getRabbits(listModel);
+  }
+
+  getRabbits(listModel: RabbitListModel) {
     this.isPaging = true;
     this.rabbitService.getRabbits(listModel).subscribe(
       r => {
-        this.isPaging = false;
         this.rabbitsDataSource = new MatTableDataSource(r.pageData);
         this.pageSize = r.pageSize;
         this.totalRecordsCount = r.totalRecordsCount;
         this.pageIndex = r.pageNumber - 1;
+        this.isPaging = false;
       },
       e => {
         this.isPaging = false;
         throw e;
       }
     );
-  }
-
-  onFilterApplied(filter: RabbitListModelFilter) {
-    console.log("Filter appleid: ", JSON.stringify(filter));
   }
 }

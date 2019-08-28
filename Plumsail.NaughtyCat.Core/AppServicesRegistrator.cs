@@ -5,6 +5,7 @@ using Plumsail.NaughtyCat.Core.Services;
 using Plumsail.NaughtyCat.Core.Services.Abstract;
 using Plumsail.NaughtyCat.Domain.Models;
 using Plumsail.NaughtyCat.Domain.Models.Jwt;
+using Plumsail.NaughtyCat.Domain.Models.ListViews;
 using Plumsail.NaughtyCat.Domain.WebDto;
 
 namespace Plumsail.NaughtyCat.Core
@@ -22,7 +23,7 @@ namespace Plumsail.NaughtyCat.Core
         {
             services.Configure<JwtTokenModel>(options => _config.GetSection("TokenManagement").Bind(options));
 
-            services.AddTransient<GenericServiceBase<Rabbit, RabbitDto>, RabbitsService>();
+            services.AddTransient<GenericServiceBase<Rabbit, RabbitDto, RabbitListModelFilter>, RabbitsService>();
             services.AddTransient<IAuthService, TokenAuthenticationService>();
         }
     }

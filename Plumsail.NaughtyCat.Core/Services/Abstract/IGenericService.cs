@@ -7,9 +7,10 @@ using Plumsail.NaughtyCat.Common.Models;
 
 namespace Plumsail.NaughtyCat.Core.Services.Abstract
 {
-    public interface IGenericService<TEntity, TDto, TKey> 
+    public interface IGenericService<TEntity, TDto, in TFilter, TKey> 
         where TEntity : IHasKey<TKey>
         where TDto : IDtoMarker
+		where TFilter: IFilterMarker
     {
         Task<TKey> Add(TDto dto);
         Task<TDto> GetByKey(TKey key);
@@ -18,6 +19,7 @@ namespace Plumsail.NaughtyCat.Core.Services.Abstract
 
         Task Delete(TKey key);
 
-        Task<PagingModel<TDto>> GetByCondition<TFilter>(TFilter filter, int pageNumber, int pageSize, OrderingOptions<TEntity, TKey> orderingOptions = null) where TFilter : IFilterMarker;
+        Task<PagingModel<TDto>> GetByCondition(TFilter filter, int pageNumber, int pageSize,
+	        OrderingOptions<TEntity, TKey> orderingOptions = null);
     }
 }

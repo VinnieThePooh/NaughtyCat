@@ -17,7 +17,9 @@ import {
   MatDialogModule,
   MatSelectModule,
   MatSnackBarModule,
-  MatSnackBar
+  MatSnackBar,
+  MatDatepickerModule,
+  MatNativeDateModule
 } from "@angular/material";
 import { RabbitListviewComponent } from "./components/rabbit/rabbit-listview/rabbit-listview.component";
 import { HomeComponent } from "./components/home/home.component";
@@ -34,7 +36,7 @@ import { RabbitEditComponent } from "./components/rabbit/rabbit-edit/rabbit-edit
 import { RabbitService } from "./services/rabbit.service";
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { AuthInterceptor } from "./interceptors/auth-interceptor";
-import { RabbitFilterComponent } from './components/filters/rabbit-filter.component';
+import { RabbitFilterComponent } from "./components/filters/rabbit-filter.component";
 
 @NgModule({
   declarations: [
@@ -64,7 +66,9 @@ import { RabbitFilterComponent } from './components/filters/rabbit-filter.compon
     MatPaginatorModule,
     MatDividerModule,
     MatExpansionModule,
+    MatNativeDateModule,
     MatSelectModule,
+    MatDatepickerModule,
     MatListModule,
     MatInputModule,
     MatTableModule,
