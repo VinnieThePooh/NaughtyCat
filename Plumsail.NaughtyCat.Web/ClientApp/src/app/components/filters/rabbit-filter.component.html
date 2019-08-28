@@ -1,0 +1,67 @@
+<div class="rabbit-filter">
+  <mat-form-field>
+    <mat-label>Name</mat-label>
+    <input matInput name="name" [(ngModel)]="filter.name" />
+    <!-- <mat-hint>Hint</mat-hint> -->
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Color</mat-label>
+    <input matInput [(ngModel)]="filter.color" name="color" />
+    <!-- <mat-hint>Hint</mat-hint> -->
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Age</mat-label>
+    <input matInput [(ngModel)]="filter.age" name="age" />
+    <!-- <mat-hint>Hint</mat-hint> -->
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Select delicacy</mat-label>
+    <mat-select [(value)]="filter.delicacy">
+      <mat-option *ngFor="let denum of delicacyEnumsGet" [value]="denum.value">
+        {{ denum.description }}</mat-option
+      >
+    </mat-select>
+    <!-- <mat-hint>Hint</mat-hint> -->
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Select priority</mat-label>
+    <mat-select [(value)]="filter.priority">
+      <mat-option *ngFor="let penum of priorityEnumsGet" [value]="penum.value">
+        {{ penum.description }}</mat-option
+      >
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>CreateDate From</mat-label>
+    <input matInput [(ngModel)]="filter.createDateFrom" name="createDateFrom" />
+    <!-- <mat-hint>Hint</mat-hint> -->
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>CreateDate To</mat-label>
+    <input matInput [(ngModel)]="filter.createDateTo" name="createDateTo" />
+    <!-- <mat-hint>Hint</mat-hint> -->
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>UpdateDate From</mat-label>
+    <input matInput [(ngModel)]="filter.updateDateFrom" name="updateDateFrom" />
+    <!-- <mat-hint>Hint</mat-hint> -->
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>UpdateDate To</mat-label>
+    <input matInput [(ngModel)]="filter.updateDateTo" name="updateDateTo" />
+    <!-- <mat-hint>Hint</mat-hint> -->
+  </mat-form-field>
+  <div class="buttons">
+    <button mat-button (click)="applyFilter()">
+      Apply filter
+    </button>
+  </div>
+</div>
