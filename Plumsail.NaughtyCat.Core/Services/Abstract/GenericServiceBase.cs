@@ -46,6 +46,14 @@ namespace Plumsail.NaughtyCat.Core.Services.Abstract
         public virtual Task Delete(int key) => DataProvider.Delete(key);
 
         // get paging model
+		/// <summary>
+		/// If pageSize is 0 - returns the whole dataset
+		/// </summary>
+		/// <param name="filter"></param>
+		/// <param name="pageNumber"></param>
+		/// <param name="pageSize"></param>
+		/// <param name="orderingOptions"></param>
+		/// <returns></returns>
         public async Task<PagingModel<TDto>> GetByCondition(TFilter filter, int pageNumber, int pageSize,
             OrderingOptions<TEntity, int> orderingOptions = null)
         {
@@ -73,6 +81,6 @@ namespace Plumsail.NaughtyCat.Core.Services.Abstract
             };
         }
 
-        protected abstract Expression<Func<TEntity, bool>> GenerateExpression(TFilter filter);
+        protected abstract Func<TEntity, bool> GenerateExpression(TFilter filter);
     }
 }

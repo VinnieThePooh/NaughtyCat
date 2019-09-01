@@ -21,7 +21,7 @@ namespace Plumsail.NaughtyCat.Core.Services
             _auditor = this;
         }
 
-        protected override Expression<Func<Rabbit, bool>> GenerateExpression(RabbitListModelFilter filter)
+        protected override Func<Rabbit, bool> GenerateExpression(RabbitListModelFilter filter)
         {
             if (filter == null)
                 return null;
@@ -37,7 +37,8 @@ namespace Plumsail.NaughtyCat.Core.Services
 			                                           (filter.UpdateDateFrom == null || r.UpdateDate >= filter.UpdateDateFrom) &&
 			                                           (filter.UpdateDateTo == null || r.UpdateDate <= filter.UpdateDateTo);
 
-			return Expression.Lambda<Func<Rabbit, bool>>(Expression.Call(filterFunction.Method));
+			return filterFunction;
+			//return Expression.Lambda<Func<Rabbit, bool>>(Expression.Call(filterFunction.Method));
         }
 
         public override Task<int> Add(RabbitDto dto)

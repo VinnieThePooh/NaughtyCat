@@ -44,7 +44,7 @@ namespace Plumsail.NaughtyCat.DataAccess.Providers.Abstract
             await _dbContext.SaveChangesAsync();
         }
 
-        public virtual Task<IOrderedQueryable<TEntity>> GetByCondition(Expression<Func<TEntity, bool>> filter,
+        public virtual Task<IOrderedQueryable<TEntity>> GetByCondition(Func<TEntity, bool> filter,
             OrderingOptions<TEntity, int> orderingOptions = null)
         {
 	        var ordOptions = orderingOptions ?? OrderingOptions<TEntity, int>.Create();
@@ -60,10 +60,10 @@ namespace Plumsail.NaughtyCat.DataAccess.Providers.Abstract
 
             if (ordOptions.Direction == OrderingDirection.Ascend)
             {
-	            return Task.FromResult(_dataSet.AsQueryable().Where(filter).OrderBy(ordOptions.Order));
+	            return Task.FromResult(_dataSet.Where(filter).AsQueryable().OrderBy(ordOptions.Order));
             }
 
-            return Task.FromResult(_dataSet.AsQueryable().Where(filter).OrderByDescending(ordOptions.Order));
+            return Task.FromResult(_dataSet.Where(filter).AsQueryable().OrderByDescending(ordOptions.Order));
         }
     }
 }
