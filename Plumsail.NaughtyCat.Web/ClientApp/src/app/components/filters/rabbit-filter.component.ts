@@ -8,13 +8,13 @@ import { EnumItemDto } from "src/app/models/enum-item-dto";
   styleUrls: ["./rabbit-filter.component.css"]
 })
 export class RabbitFilterComponent implements OnInit {
-  filter: RabbitListModelFilter;
+  public filter: RabbitListModelFilter;
 
   @Input() delicacyEnums: EnumItemDto[];
   @Input() priorityEnums: EnumItemDto[];
 
-  @Input() delicacyEnumsGet: EnumItemDto[];
-  @Input() priorityEnumsGet: EnumItemDto[];
+  delicacyEnumsGet: EnumItemDto[];
+  priorityEnumsGet: EnumItemDto[];
 
   @Output() filterApplied: EventEmitter<
     RabbitListModelFilter
@@ -35,19 +35,23 @@ export class RabbitFilterComponent implements OnInit {
       updateDateTo: null
     };
 
-    this.delicacyEnumsGet = Array.from(this.delicacyEnums);
-    this.delicacyEnumsGet.unshift({
+    this.delicacyEnumsGet = [];
+    this.delicacyEnumsGet.push({
       value: 0,
       description: "No delicacy",
       selected: true
-    } as EnumItemDto);
+    });
 
-    this.priorityEnumsGet = Array.from(this.priorityEnums);
-    this.priorityEnumsGet.unshift({
+    this.delicacyEnums.forEach(item => this.delicacyEnumsGet.push(item));
+
+    this.priorityEnumsGet = [];
+    this.priorityEnumsGet.push({
       value: 0,
       description: "No priority",
       selected: true
-    } as EnumItemDto);
+    });
+
+    this.priorityEnums.forEach(item => this.priorityEnumsGet.push(item));
   }
 
   get filterData(): RabbitListModelFilter {
@@ -64,6 +68,9 @@ export class RabbitFilterComponent implements OnInit {
 
     this.filter.delicacy = !!this.filter.delicacy ? this.filter.delicacy : null;
     this.filter.priority = !!this.filter.priority ? this.filter.priority : null;
+
+    let fname = this.filter.name && this.filter.name.trim();
+    this.filter.name = !!fname ? fname : null;
 
     return this.filter;
   }

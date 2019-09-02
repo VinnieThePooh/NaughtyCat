@@ -1,4 +1,4 @@
-<div class="content-wrapper" *ngIf="!isDataLoading && hasRabbits">
+<div class="content-wrapper" *ngIf="!isDataLoading">
   <h4>Rabbit filter:</h4>
   <div class="t-filter">
     <ncat-rabbit-filter
@@ -7,7 +7,7 @@
       (filterApplied)="onFilterApplied($event)"
     ></ncat-rabbit-filter>
   </div>
-  <div class="t-header">
+  <div class="t-header" *ngIf="hasRabbits">
     <button mat-raised-button (click)="addNewRabbit()">
       Invite new Rabbit to Party
     </button>
@@ -35,6 +35,18 @@
       <th mat-header-cell *matHeaderCellDef><p>Age</p></th>
       <td met-cell *matCellDef="let element">{{ element.age || "N/A" }}</td>
     </ng-container>
+    <ng-container matColumnDef="priority">
+      <th mat-header-cell *matHeaderCellDef><p>Priority</p></th>
+      <td met-cell *matCellDef="let element">
+        {{ getPriorityDescription(element) }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="delicacy">
+      <th mat-header-cell *matHeaderCellDef><p>Delicacy</p></th>
+      <td met-cell *matCellDef="let element">
+        {{ getDelicacyDescription(element) }}
+      </td>
+    </ng-container>
     <ng-container matColumnDef="color">
       <th mat-header-cell *matHeaderCellDef><p>Color</p></th>
       <td met-cell *matCellDef="let element">{{ element.color }}</td>
@@ -56,5 +68,5 @@
     <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
   </table>
 
-  <h5 *ngIf="!hasRabbits && !isDataLoading">No rabbits available</h5>
+  <h5 class="no-rabbits" *ngIf="!hasRabbits">No rabbits available</h5>
 </div>

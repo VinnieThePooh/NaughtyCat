@@ -69,3 +69,7 @@ button {
 ::ng-deep .rabbit-filter .mat-form-field {
   margin-right: 20px;
 }
+
+.no-rabbits {
+  margin-top: 10px;
+}

@@ -2,19 +2,16 @@
   <mat-form-field>
     <mat-label>Name</mat-label>
     <input matInput name="name" [(ngModel)]="filter.name" />
-    <!-- <mat-hint>Hint</mat-hint> -->
   </mat-form-field>
 
   <mat-form-field>
     <mat-label>Color</mat-label>
     <input matInput [(ngModel)]="filter.color" name="color" />
-    <!-- <mat-hint>Hint</mat-hint> -->
   </mat-form-field>
 
   <mat-form-field>
     <mat-label>Age</mat-label>
     <input matInput [(ngModel)]="filter.age" name="age" />
-    <!-- <mat-hint>Hint</mat-hint> -->
   </mat-form-field>
 
   <mat-form-field>
@@ -24,12 +21,11 @@
         {{ denum.description }}</mat-option
       >
     </mat-select>
-    <!-- <mat-hint>Hint</mat-hint> -->
   </mat-form-field>
 
   <mat-form-field>
     <mat-label>Select priority</mat-label>
-    <mat-select [(value)]="filter.priority">
+    <mat-select [(ngModel)]="filter.priority">
       <mat-option *ngFor="let penum of priorityEnumsGet" [value]="penum.value">
         {{ penum.description }}</mat-option
       >
@@ -50,7 +46,6 @@
       [for]="pickercdfrom"
     ></mat-datepicker-toggle>
     <mat-datepicker #pickercdfrom></mat-datepicker>
-    <!-- <mat-hint>Hint</mat-hint> -->
   </mat-form-field>
 
   <mat-form-field>
@@ -64,7 +59,6 @@
     />
     <mat-datepicker-toggle matSuffix [for]="pickercdto"></mat-datepicker-toggle>
     <mat-datepicker #pickercdto></mat-datepicker>
-    <!-- <mat-hint>Hint</mat-hint> -->
   </mat-form-field>
 
   <mat-form-field>

@@ -27,17 +27,15 @@ namespace Plumsail.NaughtyCat.Core.Services
             if (filter == null)
                 return null;
 
-            // todo: generate expression manually
             Expression<Func<Rabbit, bool>> fExpression = (r) => (string.IsNullOrEmpty(filter.Name) ||
-                                                        string.IsNullOrEmpty(r.Name) && r.Name.Contains(filter.Name, StringComparison.InvariantCultureIgnoreCase)) &&
-                                                       (string.IsNullOrEmpty(filter.Color) || string.IsNullOrEmpty(r.Name) &&  r.Color.Contains(filter.Color, StringComparison.InvariantCultureIgnoreCase)) &&
+                                                        !string.IsNullOrEmpty(r.Name) && r.Name.Contains(filter.Name, StringComparison.InvariantCultureIgnoreCase)) &&
+                                                       (string.IsNullOrEmpty(filter.Color) || !string.IsNullOrEmpty(r.Color) &&  r.Color.Contains(filter.Color, StringComparison.InvariantCultureIgnoreCase)) &&
                                                        (filter.Delicacy == null || filter.Delicacy.Equals(r.IdRabbitDelicacy)) &&
                                                        (filter.Priority == null || filter.Priority.Equals(r.IdRabbitPriority)) &&
                                                        (filter.CreateDateFrom == null || r.CreateDate >= filter.CreateDateFrom) &&
                                                        (filter.CreateDateTo == null || r.CreateDate <= filter.CreateDateTo) &&
                                                        (filter.UpdateDateFrom == null || r.UpdateDate >= filter.UpdateDateFrom) &&
                                                        (filter.UpdateDateTo == null || r.UpdateDate <= filter.UpdateDateTo);
-
             return fExpression;
         }
 

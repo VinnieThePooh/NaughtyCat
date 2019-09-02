@@ -13,7 +13,6 @@ import { RabbitEditComponent } from "../rabbit-edit/rabbit-edit.component";
 import { EnumsService } from "src/app/services/enums.service";
 import { EnumItemDto } from "src/app/models/enum-item-dto";
 import { RabbitEditViewModel } from "src/app/models/rabbit-edit-view-model";
-import { Directionality } from "@angular/cdk/bidi";
 import { RabbitListModelFilter } from "src/app/models/rabbit-listmodel-filter";
 import { RabbitFilterComponent } from "../../filters/rabbit-filter.component";
 
@@ -35,6 +34,8 @@ export class RabbitListviewComponent implements OnInit {
     // "id",
     "name",
     "age",
+    "priority",
+    "delicacy",
     "color",
     "createDate",
     "updateDate"
@@ -137,6 +138,16 @@ export class RabbitListviewComponent implements OnInit {
         return;
       }
     });
+  }
+
+  getPriorityDescription(rabbit: Rabbit): string {
+    var found = this.priorityEnums.find(item => (item.value = rabbit.delicacy));
+    return (found && found.description) || "N/A";
+  }
+
+  getDelicacyDescription(rabbit: Rabbit): string {
+    var found = this.delicacyEnums.find(item => (item.value = rabbit.delicacy));
+    return (found && found.description) || "N/A";
   }
 
   formatDate(date?: string): string {
