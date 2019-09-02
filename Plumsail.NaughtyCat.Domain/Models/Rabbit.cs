@@ -6,8 +6,8 @@ namespace Plumsail.NaughtyCat.Domain.Models
     public class Rabbit : IHasKey<int>, IAuditable
     {
         public int Id { get; set; }
-        public DateTime CreateDate { get; set; }
-        public DateTime UpdateDate { get; set; }
+        public DateTime? CreateDate { get; set; }
+        public DateTime? UpdateDate { get; set; }
 
         public string Name { get; set; }
 

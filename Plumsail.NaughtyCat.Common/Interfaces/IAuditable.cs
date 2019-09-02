@@ -4,8 +4,8 @@ namespace Plumsail.NaughtyCat.Common.Interfaces
 {
     public interface IAuditable
     {
-        DateTime CreateDate { get; set; }
+        DateTime? CreateDate { get; set; }
 
-        DateTime UpdateDate { get; set; }
+        DateTime? UpdateDate { get; set; }
     }
 }

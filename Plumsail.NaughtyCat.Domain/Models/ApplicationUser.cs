@@ -6,7 +6,7 @@ namespace Plumsail.NaughtyCat.Domain.Models
 {
     public class ApplicationUser: IdentityUser<int>, IHasKey<int>, IAuditable
     {
-        public DateTime CreateDate { get; set; }
-        public DateTime UpdateDate { get; set; }
+        public DateTime? CreateDate { get; set; }
+        public DateTime? UpdateDate { get; set; }
     }
 }

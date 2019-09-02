@@ -63,24 +63,31 @@ namespace Plumsail.NaughtyCat.Core.Services.Abstract
             if (pageSize < 0)
                 throw new ArgumentException(nameof(pageSize));
 
-            var data = await DataProvider.GetByCondition(GenerateExpression(filter), orderingOptions);
-
+			// this is sync operation anyway
+            var data = DataProvider.GetByCondition(GenerateExpression(filter), orderingOptions).Result;
+			
             var count = await data.CountAsync();
 
             if (pageSize == 0)
             {
                 return new PagingModel<TDto>(count, count, 1)
                 {
-                    PageData = data.Skip(0).Take(count).Select(x => Mapper.Map<TDto>(x)).ToArray(),
+                    PageData = await data.Skip(0)
+	                    .Take(count)
+	                    .Select(x => Mapper.Map<TDto>(x))
+	                    .ToArrayAsync()
                 };
             }
 
             return new PagingModel<TDto>(count, pageSize, pageNumber)
             {
-                PageData = data.Skip((pageNumber - 1) * pageSize).Take(pageSize).Select((x) => Mapper.Map<TDto>(x)).ToArray()
+                PageData = await data.Skip((pageNumber - 1) * pageSize)
+	                .Take(pageSize)
+	                .Select(x => Mapper.Map<TDto>(x))
+	                .ToArrayAsync()
             };
         }
 
-        protected abstract Func<TEntity, bool> GenerateExpression(TFilter filter);
+        protected abstract Expression<Func<TEntity, bool>> GenerateExpression(TFilter filter);
     }
 }

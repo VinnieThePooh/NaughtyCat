@@ -3,6 +3,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
+using Plumsail.NaughtyCat.Common.Helpers;
 using Plumsail.NaughtyCat.Common.Interfaces;
 using Plumsail.NaughtyCat.Core.Services.Abstract;
 using Plumsail.NaughtyCat.DataAccess.Providers.Abstract;
@@ -21,24 +22,54 @@ namespace Plumsail.NaughtyCat.Core.Services
             _auditor = this;
         }
 
-        protected override Func<Rabbit, bool> GenerateExpression(RabbitListModelFilter filter)
+        protected override Expression<Func<Rabbit, bool>> GenerateExpression(RabbitListModelFilter filter)
         {
             if (filter == null)
                 return null;
 
-            // todo: generate expression manually
-			Func<Rabbit, bool> filterFunction = (r) => (string.IsNullOrEmpty(filter.Name) ||
-			                                            filter.Name.Contains(r.Name, StringComparison.InvariantCultureIgnoreCase)) &&
-			                                           (string.IsNullOrEmpty(filter.Color) || filter.Color.Contains(r.Color, StringComparison.InvariantCultureIgnoreCase)) &&
-			                                           (filter.Delicacy == null || filter.Delicacy.Equals(r.IdRabbitDelicacy)) &&
-			                                           (filter.Priority == null || filter.Priority.Equals(r.IdRabbitPriority)) &&
-			                                           (filter.CreateDateFrom == null || r.CreateDate >= filter.CreateDateFrom) &&
-			                                           (filter.CreateDateTo == null || r.CreateDate <= filter.CreateDateTo) && 
-			                                           (filter.UpdateDateFrom == null || r.UpdateDate >= filter.UpdateDateFrom) &&
-			                                           (filter.UpdateDateTo == null || r.UpdateDate <= filter.UpdateDateTo);
+            var totalExpression = ExpressionsHelper.TrueExpression;
 
-			return filterFunction;
-			//return Expression.Lambda<Func<Rabbit, bool>>(Expression.Call(filterFunction.Method));
+            var stringProps = new[]
+            {
+	            nameof(RabbitListModelFilter.Name),
+	            nameof(RabbitListModelFilter.Color)
+            };
+
+
+            foreach (var strProp in stringProps)
+            {
+	            totalExpression = Expression.AndAlso(totalExpression,
+		            ExpressionsHelper.Contains<Rabbit, RabbitListModelFilter>(strProp));
+            }
+
+
+            totalExpression = Expression.AndAlso(totalExpression,
+	            ExpressionsHelper.IsLessThanOrEqual<Rabbit, RabbitListModelFilter>(
+		            nameof(RabbitListModelFilter.UpdateDateTo), nameof(Rabbit.UpdateDate)));
+
+            totalExpression = Expression.AndAlso(totalExpression,
+	            ExpressionsHelper.IsGreaterThanOrEqual<Rabbit, RabbitListModelFilter>(
+		            nameof(RabbitListModelFilter.UpdateDateFrom), nameof(Rabbit.UpdateDate)));
+
+
+            totalExpression = Expression.AndAlso(totalExpression,
+	            ExpressionsHelper.IsLessThanOrEqual<Rabbit, RabbitListModelFilter>(
+		            nameof(RabbitListModelFilter.CreateDateTo), nameof(Rabbit.CreateDate)));
+
+            totalExpression = Expression.AndAlso(totalExpression,
+	            ExpressionsHelper.IsGreaterThanOrEqual<Rabbit, RabbitListModelFilter>(
+		            nameof(RabbitListModelFilter.CreateDateFrom), nameof(Rabbit.CreateDate)));
+
+            totalExpression = Expression.AndAlso(totalExpression,
+	            ExpressionsHelper.Equals<Rabbit, RabbitListModelFilter>(nameof(RabbitListModelFilter.Delicacy)));
+
+            totalExpression = Expression.AndAlso(totalExpression,
+	            ExpressionsHelper.Equals<Rabbit, RabbitListModelFilter>(nameof(RabbitListModelFilter.Priority)));
+
+            totalExpression = Expression.AndAlso(totalExpression,
+	            ExpressionsHelper.Equals<Rabbit, RabbitListModelFilter>(nameof(RabbitListModelFilter.Age)));
+
+            return ExpressionsHelper.ConvertToLambda<Rabbit>(totalExpression);
         }
 
         public override Task<int> Add(RabbitDto dto)
