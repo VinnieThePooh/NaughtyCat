@@ -2,103 +2,131 @@
 using System.Linq.Expressions;
 using System.Reflection;
 using Plumsail.NaughtyCat.Common.Interfaces;
-// ReSharper disable All
+using static System.Linq.Expressions.Expression;
 
 namespace Plumsail.NaughtyCat.Common.Helpers
 {
 	public static class ExpressionsHelper
 	{
-
-		public const string FilterParameterName = "filter";
+		public const string FilterVariableName = "filter";
 		public const string EntityParameterName = "entity";
 
 		public static BinaryExpression TrueExpression =>
-			Expression.Equal(Expression.Constant(0), Expression.Constant(0));
+			Equal(Constant(0), Constant(0));
 
 		public static BinaryExpression FalseExpression =>
-			Expression.Equal(Expression.Constant(0), Expression.Constant(1));
+			Equal(Constant(0), Constant(1));
 
 		public static BinaryExpression IsNull(MemberExpression memberExpression) =>
-			Expression.Equal(memberExpression, Expression.Constant(null, memberExpression.Type));
+			Equal(memberExpression, Constant(null, memberExpression.Type));
 
 		public static BinaryExpression IsNotNull(MemberExpression memberExpression) =>
-			Expression.NotEqual(memberExpression, Expression.Constant(null, memberExpression.Type));
+			NotEqual(memberExpression, Constant(null, memberExpression.Type));
 
 		public static BinaryExpression HasValue(MemberExpression memberExpression)
 		{
-			var hasValueExpression = Expression.Property(memberExpression, "HasValue");
-			return Expression.Equal(hasValueExpression, Expression.Constant(true));
+			var hasValueExpression = Property(memberExpression, "HasValue");
+			return Equal(hasValueExpression, Constant(true));
 		}
 
 		public static BinaryExpression HasNoValue(MemberExpression memberExpression)
 		{
-			var hasValueExpression = Expression.Property(memberExpression, "HasValue");
-			return Expression.NotEqual(hasValueExpression, Expression.Constant(true));
+			var hasValueExpression = Property(memberExpression, "HasValue");
+			return NotEqual(hasValueExpression, Constant(true));
 		}
 
-		public static BinaryExpression Contains<TEntity, TFilter>(string propName) where TFilter: IFilterMarker
+		public static BinaryExpression Contains<TEntity, TFilter>(string propName) where TFilter : IFilterMarker
 		{
-			var parExpr = Expression.Parameter(typeof(TEntity), EntityParameterName);
-			var filterExpr = Expression.Parameter(typeof(TFilter), FilterParameterName);
+			var parExpr = Parameter(typeof(TEntity), EntityParameterName);
+			var filterExpr = Variable(typeof(TFilter), FilterVariableName);
 
-			var entityProp = Expression.Property(parExpr, propName);
-			var filterProp = Expression.Property(filterExpr, propName);
+			var entityProp = Property(parExpr, propName);
+			var filterProp = Property(filterExpr, propName);
 
 			var nullOrEmptyMi = typeof(string).GetMethod("IsNullOrEmpty", BindingFlags.Static | BindingFlags.Public);
 
-			var containsMi = typeof(string).GetMethod("Contains", BindingFlags.Public | BindingFlags.Instance, null, new Type[] {typeof(string)}, null);
+			var containsMi = typeof(string).GetMethod("Contains", BindingFlags.Public | BindingFlags.Instance, null,
+				new Type[] {typeof(string)}, null);
 
 
-			var nullOrEmptyFilterExpr = Expression.Call(nullOrEmptyMi, filterProp);
-			
-			var notNullOrEmptyEntityExpr = Expression.NotEqual(Expression.Call(nullOrEmptyMi, entityProp), Expression.Constant(true));
-			var containsExpr = Expression.AndAlso(notNullOrEmptyEntityExpr,
-				Expression.Call(entityProp, containsMi, filterProp));
+			var nullOrEmptyFilterExpr = Call(nullOrEmptyMi, filterProp);
 
-			return Expression.OrElse(nullOrEmptyFilterExpr, containsExpr);
+			var notNullOrEmptyEntityExpr = NotEqual(Call(nullOrEmptyMi, entityProp), Constant(true));
+			var containsExpr = AndAlso(notNullOrEmptyEntityExpr,
+				Call(entityProp, containsMi, filterProp));
+
+			return OrElse(nullOrEmptyFilterExpr, containsExpr);
 		}
 
-		public static BinaryExpression IsGreaterThanOrEqual<TEntity, TFilter>(string propName, string entityPropName) where TFilter : IFilterMarker
+		public static BinaryExpression IsGreaterThanOrEqual<TEntity, TFilter>(string propName, string entityPropName)
+			where TFilter : IFilterMarker
 		{
-			var parExpr = Expression.Parameter(typeof(TEntity), EntityParameterName);
-			var filterExpr = Expression.Parameter(typeof(TFilter), FilterParameterName);
+			var parExpr = Parameter(typeof(TEntity), EntityParameterName);
+			var filterExpr = Variable(typeof(TFilter), FilterVariableName);
 
-			var entityProp = Expression.Property(parExpr, entityPropName);
-			var filterProp = Expression.Property(filterExpr, propName);
+			var entityProp = Property(parExpr, entityPropName);
+			var filterProp = Property(filterExpr, propName);
 
-			return Expression.OrElse(HasNoValue(filterProp),
-				Expression.AndAlso(HasValue(entityProp), Expression.GreaterThanOrEqual(entityProp, filterProp)));
+			return OrElse(HasNoValue(filterProp),
+				AndAlso(HasValue(entityProp),
+					GreaterThanOrEqual(Property(entityProp, "Value"), Property(filterProp, "Value"))));
 		}
 
-		public static BinaryExpression IsLessThanOrEqual<TEntity, TFilter>(string filterPropName, string entityPropName) where TFilter : IFilterMarker
+		public static BinaryExpression IsLessThanOrEqual<TEntity, TFilter>(string filterPropName, string entityPropName)
+			where TFilter : IFilterMarker
 		{
-			var parExpr = Expression.Parameter(typeof(TEntity), EntityParameterName);
-			var filterExpr = Expression.Parameter(typeof(TFilter), FilterParameterName);
+			var parExpr = Parameter(typeof(TEntity), EntityParameterName);
+			var filterExpr = Variable(typeof(TFilter), FilterVariableName);
 
-			var entityProp = Expression.Property(parExpr, entityPropName);
-			var filterProp = Expression.Property(filterExpr, filterPropName);
+			var entityProp = Property(parExpr, entityPropName);
+			var filterProp = Property(filterExpr, filterPropName);
 
-			return Expression.OrElse(HasNoValue(filterProp),
-				Expression.AndAlso(HasValue(entityProp), Expression.LessThanOrEqual(entityProp, filterProp)));
+			return OrElse(HasNoValue(filterProp),
+				AndAlso(HasValue(entityProp),
+					LessThanOrEqual(Property(entityProp, "Value"), Property(filterProp, "Value"))));
 		}
 
-		// enum or int types
-		public static BinaryExpression Equals<TEntity, TFilter>(string  propName) where TFilter : IFilterMarker
+		// enum? or int? types
+		public static BinaryExpression Equals<TEntity, TFilter>(string propName, string entityPropName)
+			where TFilter : IFilterMarker
 		{
-			var parExpr = Expression.Parameter(typeof(TEntity), EntityParameterName);
-			var filterExpr = Expression.Parameter(typeof(TFilter), FilterParameterName);
+			var parExpr = Parameter(typeof(TEntity), EntityParameterName);
+			var filterExpr = Variable(typeof(TFilter), FilterVariableName);
 
-			var entityProp = Expression.Property(parExpr, propName);
-			var filterProp = Expression.Property(filterExpr, propName);
+			var entityProp = Property(parExpr, entityPropName);
+			var filterProp = Property(filterExpr, propName);
 
-			return Expression.OrElse(HasNoValue(filterProp), Expression.Equal(filterProp, entityProp));
+			UnaryExpression filterConverted = null;
 
+			if (!entityProp.Type.IsAssignableFrom(filterProp.Type))
+			{
+				filterConverted = Convert(filterProp, entityProp.Type);
+			}
+
+
+			//var expression = filterConverted != null ? filterConverted: filterProp;
+
+			if (filterConverted != null)
+				return OrElse(HasNoValue(filterProp),
+					Equal(Property(filterConverted, "Value"), Property(entityProp, "Value")));
+
+			return OrElse(HasNoValue(filterProp), Equal(Property(filterProp, "Value"), Property(entityProp, "Value")));
 		}
 
-		public static Expression<Func<TEntity, bool>> ConvertToLambda<TEntity>(BinaryExpression expression)
+		public static Expression<Func<TEntity, bool>> ConvertToLambda<TEntity, TFilter>(BinaryExpression expression,
+			TFilter filter) where TFilter : IFilterMarker
 		{
-			var param = Expression.Parameter(typeof(TEntity), EntityParameterName);
-			return Expression.Lambda<Func<TEntity, bool>>(expression, new[] {param});
+			var param = Parameter(typeof(TEntity), EntityParameterName);
+			var variable = Variable(typeof(TFilter), FilterVariableName);
+			var assignExpression = Assign(variable, Constant(filter));
+
+			var block = Block(
+				new[] {variable, param},
+				assignExpression,
+				expression
+			);
+
+			return Lambda<Func<TEntity, bool>>(param);
 		}
 	}
 }
