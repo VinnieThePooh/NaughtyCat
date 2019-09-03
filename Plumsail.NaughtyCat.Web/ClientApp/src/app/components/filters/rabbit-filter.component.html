@@ -1,97 +1,104 @@
 <div class="rabbit-filter">
-  <mat-form-field>
-    <mat-label>Name</mat-label>
-    <input matInput name="name" [(ngModel)]="filter.name" />
-  </mat-form-field>
+  <form [formGroup]="filterForm" (ngSubmit)="applyFilter($event)">
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" />
+    </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>Color</mat-label>
-    <input matInput [(ngModel)]="filter.color" name="color" />
-  </mat-form-field>
+    <mat-form-field>
+      <mat-label>Color</mat-label>
+      <input matInput formControlName="color" />
+    </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>Age</mat-label>
-    <input matInput [(ngModel)]="filter.age" name="age" />
-  </mat-form-field>
+    <mat-form-field>
+      <mat-label>Age</mat-label>
+      <input matInput formControlName="age" />
+    </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>Select delicacy</mat-label>
-    <mat-select [(value)]="filter.delicacy">
-      <mat-option *ngFor="let denum of delicacyEnumsGet" [value]="denum.value">
-        {{ denum.description }}</mat-option
+    <mat-form-field>
+      <mat-label>Select delicacy</mat-label>
+      <mat-select
+        formControlName="delicacy"
+        (selectionChange)="delicacyChange($event)"
       >
-    </mat-select>
-  </mat-form-field>
+        <mat-option *ngFor="let denum of delicacyData" [value]="denum.value">
+          {{ denum.description }}</mat-option
+        >
+      </mat-select>
+    </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>Select priority</mat-label>
-    <mat-select [(ngModel)]="filter.priority">
-      <mat-option *ngFor="let penum of priorityEnumsGet" [value]="penum.value">
-        {{ penum.description }}</mat-option
-      >
-    </mat-select>
-  </mat-form-field>
+    <mat-form-field>
+      <mat-label>Select priority</mat-label>
+      <mat-select formArrayName="priority">
+        <mat-option *ngFor="let penum of priorityData" [value]="penum.value">
+          {{ penum.description }}</mat-option
+        >
+      </mat-select>
+    </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>CreateDate From</mat-label>
-    <input
-      matInput
-      [matDatepicker]="pickercdfrom"
-      [(ngModel)]="filter.createDateFrom"
-      name="createDateFrom"
-      placeholder="Choose a date"
-    />
-    <mat-datepicker-toggle
-      matSuffix
-      [for]="pickercdfrom"
-    ></mat-datepicker-toggle>
-    <mat-datepicker #pickercdfrom></mat-datepicker>
-  </mat-form-field>
+    <mat-form-field>
+      <mat-label>CreateDate From</mat-label>
+      <input
+        matInput
+        [matDatepicker]="pickercdfrom"
+        formControlName="createDateFrom"
+        placeholder="Choose a date"
+      />
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="pickercdfrom"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #pickercdfrom></mat-datepicker>
+    </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>CreateDate To</mat-label>
-    <input
-      matInput
-      [matDatepicker]="pickercdto"
-      [(ngModel)]="filter.createDateTo"
-      name="createDateTo"
-      placeholder="Choose a date"
-    />
-    <mat-datepicker-toggle matSuffix [for]="pickercdto"></mat-datepicker-toggle>
-    <mat-datepicker #pickercdto></mat-datepicker>
-  </mat-form-field>
+    <mat-form-field>
+      <mat-label>CreateDate To</mat-label>
+      <input
+        matInput
+        [matDatepicker]="pickercdto"
+        formControlName="createDateTo"
+        placeholder="Choose a date"
+      />
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="pickercdto"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #pickercdto></mat-datepicker>
+    </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>UpdateDate From</mat-label>
-    <input
-      matInput
-      [matDatepicker]="pickerudfrom"
-      [(ngModel)]="filter.updateDateFrom"
-      name="updateDateFrom"
-      placeholder="Choose a date"
-    />
-    <mat-datepicker-toggle
-      matSuffix
-      [for]="pickerudfrom"
-    ></mat-datepicker-toggle>
-    <mat-datepicker #pickerudfrom></mat-datepicker>
-  </mat-form-field>
+    <mat-form-field>
+      <mat-label>UpdateDate From</mat-label>
+      <input
+        matInput
+        [matDatepicker]="pickerudfrom"
+        formControlName="updateDateFrom"
+        placeholder="Choose a date"
+      />
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="pickerudfrom"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #pickerudfrom></mat-datepicker>
+    </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>UpdateDate To</mat-label>
-    <input
-      matInput
-      [matDatepicker]="pickerudto"
-      [(ngModel)]="filter.updateDateTo"
-      name="updateDateTo"
-      placeholder="Choose a date"
-    />
-    <mat-datepicker-toggle matSuffix [for]="pickerudto"></mat-datepicker-toggle>
-    <mat-datepicker #pickerudto></mat-datepicker>
-  </mat-form-field>
-  <div class="buttons">
-    <button mat-button (click)="applyFilter()">
-      Apply filter
-    </button>
-  </div>
+    <mat-form-field>
+      <mat-label>UpdateDate To</mat-label>
+      <input
+        matInput
+        [matDatepicker]="pickerudto"
+        formControlName="updateDateFrom"
+        placeholder="Choose a date"
+      />
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="pickerudto"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #pickerudto></mat-datepicker>
+    </mat-form-field>
+    <div class="buttons">
+      <button mat-button type="submit">
+        Apply filter
+      </button>
+    </div>
+  </form>
 </div>
