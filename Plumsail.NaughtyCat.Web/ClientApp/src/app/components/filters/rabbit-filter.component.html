@@ -20,6 +20,7 @@
       <mat-select
         formControlName="delicacy"
         (selectionChange)="delicacyChange($event)"
+        [(value)]="delicacySelected.value"
       >
         <mat-option *ngFor="let denum of delicacyData" [value]="denum.value">
           {{ denum.description }}</mat-option
@@ -29,7 +30,7 @@
 
     <mat-form-field>
       <mat-label>Select priority</mat-label>
-      <mat-select formArrayName="priority">
+      <mat-select formArrayName="priority" [(value)]="prioritySelected.value">
         <mat-option *ngFor="let penum of priorityData" [value]="penum.value">
           {{ penum.description }}</mat-option
         >

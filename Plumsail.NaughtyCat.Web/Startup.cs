@@ -122,12 +122,6 @@ namespace Plumsail.NaughtyCat.Web
             app.UseSpa(spa =>
             {
                 spa.Options.SourcePath = "ClientApp";
-
-                // todo: check why sometimes falls with timeout
-                if (env.IsDevelopment())
-                {
-                    spa.UseAngularCliServer(npmScript: "start");
-                }
             });
         }
 

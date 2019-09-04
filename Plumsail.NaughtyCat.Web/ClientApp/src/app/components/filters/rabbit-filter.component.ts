@@ -1,7 +1,14 @@
-import { Component, OnInit, EventEmitter, Output, Input } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  EventEmitter,
+  Output,
+  Input,
+  QueryList
+} from "@angular/core";
 import { RabbitListModelFilter } from "src/app/models/rabbit-listmodel-filter";
 import { EnumItemDto } from "src/app/models/enum-item-dto";
-import { MatSelectChange } from "@angular/material";
+import { MatSelectChange, MatOption } from "@angular/material";
 import { FormBuilder, NgModelGroup, FormGroup } from "@angular/forms";
 
 @Component({
@@ -15,6 +22,8 @@ export class RabbitFilterComponent implements OnInit {
 
   delicacyData: EnumItemDto[];
   priorityData: EnumItemDto[];
+  delicacySelected: EnumItemDto;
+  prioritySelected: EnumItemDto;
   filterForm: FormGroup;
 
   @Output() filterApplied: EventEmitter<
@@ -24,33 +33,35 @@ export class RabbitFilterComponent implements OnInit {
   constructor(private builder: FormBuilder) {}
 
   ngOnInit() {
-    this.delicacyData = [];
-    this.delicacyData.push({
+    this.delicacySelected = Object.assign({
       value: 0,
-      description: "No delicacy",
-      selected: true
+      description: "No delicacy"
     });
+
+    this.prioritySelected = Object.assign({
+      value: 0,
+      description: "No priority"
+    });
+
+    this.delicacyData = [];
+    this.delicacyData.push(this.delicacySelected);
 
     this.delicacyEnums.forEach(item => this.delicacyData.push(item));
 
     this.priorityData = [];
-    this.priorityData.push({
-      value: 0,
-      description: "No priority",
-      selected: true
-    });
+    this.priorityData.push(this.prioritySelected);
 
     this.priorityEnums.forEach(item => this.priorityData.push(item));
     this.filterForm = this.builder.group({
-      name: [""],
-      color: [""],
-      delicacy: null,
-      priority: null,
-      age: null,
-      createDateFrom: null,
-      createDateTo: null,
-      updateDateFrom: null,
-      updateDateTo: null
+      name: [null],
+      color: [null],
+      delicacy: [null],
+      priority: [null],
+      age: [null],
+      createDateFrom: [null],
+      createDateTo: [null],
+      updateDateFrom: [null],
+      updateDateTo: [null]
     });
   }
 
@@ -79,8 +90,8 @@ export class RabbitFilterComponent implements OnInit {
 
   applyFilter(event: Event) {
     event.preventDefault();
-    var filter = JSON.stringify(this.filterForm.value) as RabbitListModelFilter;
-    var clearFilter = this.filterData(filter);
+    var clearFilter = this.filterData(this.filterForm
+      .value as RabbitListModelFilter);
     this.filterApplied.emit(clearFilter);
   }
 }
