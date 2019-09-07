@@ -15,10 +15,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Plumsail.NaughtyCat.Common"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{70F7A513-8E0B-4D22-BE80-083B1F0C6C4A}"
 	ProjectSection(SolutionItems) = preProject
+		C:\Users\lashk\Downloads\DevTestTask.docx = C:\Users\lashk\Downloads\DevTestTask.docx
 		todos.txt = todos.txt
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plumsail.NaughtyCat.ConsoleTests", "Plumsail.NaughtyCat.ConsoleTests\Plumsail.NaughtyCat.ConsoleTests.csproj", "{9048516C-C43E-49BA-B87B-58BA321358F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Plumsail.NaughtyCat.ConsoleTests", "Plumsail.NaughtyCat.ConsoleTests\Plumsail.NaughtyCat.ConsoleTests.csproj", "{9048516C-C43E-49BA-B87B-58BA321358F8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
